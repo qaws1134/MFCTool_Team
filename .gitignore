@@ -4,3 +4,5 @@ MFCTool/Debug
 MFCTool/Debug/UiBomb.obj
 .vs/
 .vs/Framework/v16/.suo
+.ipch
+ipch/
