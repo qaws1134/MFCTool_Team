@@ -34,17 +34,30 @@
 #define IDC_CHECK2                      1015
 #define IDC_PICTURE                     1015
 #define IDC_CHECK3                      1016
+#define IDC_COMBO1                      1016
 #define IDC_BUTTON3                     1017
+#define IDC_BT_PIC                      1017
 #define IDC_BUTTON4                     1018
+#define IDC_GROUP                       1018
 #define IDC_BUTTON5                     1019
+#define IDC_LIST2                       1019
+#define IDC_BUTTON10                    1020
+#define IDC_BUTTON11                    1021
+#define IDC_BUTTON12                    1022
+#define IDC_LIST3                       1023
+#define IDC_ANIM_PIC                    1024
+#define IDC_TEXT_COUNT                  1025
+#define IDC_TEXT_ANGLE                  1026
+#define IDC_EDIT_COUNT                  1027
+#define IDC_EDIT_ANGLE                  1028
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        313
+#define _APS_NEXT_RESOURCE_VALUE        315
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           316
 #endif
 #endif

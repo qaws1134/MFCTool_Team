@@ -36,3 +36,28 @@ typedef struct tagInfo
 	//D3DXVECTOR4; 
 
 }INFO;
+
+typedef struct tagBulletData
+{
+	enum TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
+#ifdef _AFX
+	CString cstrName;
+	CString cstrBulletImage_ObjectKey;
+	CString cstrAnimImage_ObjectKey;
+	CString cstrAnimImage_StateKey;
+#else
+	wstring wstrName;
+	wstring wstrBulletImage_ObjectKey;
+	wstring wstrAnimImage_ObjectKey;
+	wstring wstrAnimImage_StateKey;
+#endif
+	
+	int		iAtk;
+	float	fSpeed;
+	bool	bDestructable;
+	TYPE	eType;
+//º¶∞«¿œ∂ß
+	float	fAngle;
+	int		iCount;
+
+}BULLETDATA;

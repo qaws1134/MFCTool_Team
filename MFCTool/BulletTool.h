@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // CBulletTool 대화 상자입니다.
@@ -20,4 +21,21 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
 	DECLARE_MESSAGE_MAP()
+public:
+	map<CString, BULLETDATA*>	m_mapBullet;
+public:
+	afx_msg void OnCbnSelchangeBulletType();
+	CStatic m_GroupBox;
+	CComboBox m_BulletTypeSelectControl;
+	afx_msg void OnBnClickedAdd();
+	CString m_cstrName;
+	int m_iAtk;
+	float m_fSpeed;
+	CButton m_CheckBoxDestructable;
+	int m_iShotGunCount;
+	float m_fShotGunAngle;
+	CListBox m_ListBox_BulletImage;
+	CListBox m_ListBox_BulletList;
+	CListBox m_ListBox_AnimList;
+	afx_msg void OnDropFiles(HDROP hDropInfo);
 };

@@ -1,15 +1,14 @@
-﻿  ObjectTool.cpp
-  Form.cpp
-  코드를 생성하고 있습니다...
-  건너뛰고 있습니다... (관련된 변경 내용 없음)
+﻿  건너뛰고 있습니다... (관련된 변경 내용 없음)
   UiTool.cpp
+  ObjectTool.cpp
   Miniview.cpp
   MapTool.cpp
-  MFCToolDoc.cpp
-  MFCTool.cpp
-  BulletTool.cpp
-  AnimationTool.cpp
   MainFrm.cpp
   MFCToolView.cpp
-  MFCTool.vcxproj -> D:\Study\Jusin\TeamHW\4-MFC\MFCTool\Debug\MFCTool.exe
-  MFCTool.vcxproj -> D:\Study\Jusin\TeamHW\4-MFC\MFCTool\Debug\MFCTool.pdb (Partial PDB)
+  MFCToolDoc.cpp
+  MFCTool.cpp
+  Form.cpp
+  BulletTool.cpp
+  AnimationTool.cpp
+  MFCTool.vcxproj -> D:\Study\Jusin\TeamHW\4-MFC\MFCTool_Team\Debug\MFCTool.exe
+  MFCTool.vcxproj -> D:\Study\Jusin\TeamHW\4-MFC\MFCTool_Team\Debug\MFCTool.pdb (Partial PDB)
