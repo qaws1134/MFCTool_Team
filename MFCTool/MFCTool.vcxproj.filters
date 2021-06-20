@@ -108,7 +108,6 @@
     <ClInclude Include="MapTool.h">
       <Filter>01.View\Form\MapTool</Filter>
     </ClInclude>
-    <ClInclude Include="FileInfo.h" />
     <ClInclude Include="AnimationTool.h">
       <Filter>01.View\Form\AnimationTool</Filter>
     </ClInclude>
@@ -120,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="ObjectTool.h">
       <Filter>01.View\Form\ObjectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="FileInfo.h">
+      <Filter>04.Fileinfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +167,6 @@
     <ClCompile Include="MapTool.cpp">
       <Filter>01.View\Form\MapTool</Filter>
     </ClCompile>
-    <ClCompile Include="FileInfo.cpp" />
     <ClCompile Include="AnimationTool.cpp">
       <Filter>01.View\Form\AnimationTool</Filter>
     </ClCompile>
@@ -177,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="ObjectTool.cpp">
       <Filter>01.View\Form\ObjectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInfo.cpp">
+      <Filter>04.Fileinfo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

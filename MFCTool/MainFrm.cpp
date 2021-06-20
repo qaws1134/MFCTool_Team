@@ -105,7 +105,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	m_tMainSplitter.CreateStatic(this, 1, 2, WS_CHILD | WS_VISIBLE);
-	m_tSecondSplitter.CreateStatic(&m_tMainSplitter, 2, 1, WS_CHILD | WS_VISIBLE, m_tMainSplitter.IdFromRowCol(0, 0)); 
+	m_tSecondSplitter.CreateStatic(&m_tMainSplitter,2,1, WS_CHILD | WS_VISIBLE, m_tMainSplitter.IdFromRowCol(0, 0)); 
 
 	/*
 	0, 0	|	0, 1
