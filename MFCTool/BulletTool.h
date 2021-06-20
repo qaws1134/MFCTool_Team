@@ -38,4 +38,14 @@ public:
 	CListBox m_ListBox_BulletList;
 	CListBox m_ListBox_AnimList;
 	afx_msg void OnDropFiles(HDROP hDropInfo);
+	afx_msg void OnLbnSelchangeBulletImage();
+	CStatic m_BulletPicture;
+	afx_msg void OnLbnSelchangeBulletList();
+	afx_msg void OnBnClickedButtonBulletDelete();
+	afx_msg void OnBnClickedSave();
+	afx_msg void OnBnClickedButtonLoad();
+	afx_msg void OnBnClickedButtonLoadAnimation();
+	afx_msg void OnLbnSelchangeAnimation();
+	CStatic m_PictureAnimation;
+	afx_msg void OnBnClickedButtonDeleteImage();
 };

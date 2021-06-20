@@ -51,11 +51,10 @@ typedef struct tagBulletData
 	wstring wstrAnimImage_ObjectKey;
 	wstring wstrAnimImage_StateKey;
 #endif
-	
 	int		iAtk;
 	float	fSpeed;
 	bool	bDestructable;
-	TYPE	eType;
+	BYTE	eType;
 //º¶∞«¿œ∂ß
 	float	fAngle;
 	int		iCount;
