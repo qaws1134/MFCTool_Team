@@ -36,15 +36,15 @@ void CBulletTool::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_GROUP, m_GroupBox);
 	DDX_Control(pDX, IDC_COMBO1, m_BulletTypeSelectControl);
-	DDX_Text(pDX, IDC_EDIT1, m_cstrName);
-	DDX_Text(pDX, IDC_EDIT2, m_iAtk);
-	DDX_Text(pDX, IDC_EDIT3, m_fSpeed);
-	DDX_Control(pDX, IDC_CHECK1, m_CheckBoxDestructable);
+	DDX_Text(pDX, IDC_EDIT1_BULLET, m_cstrName);
+	DDX_Text(pDX, IDC_EDIT2_BULLET, m_iAtk);
+	DDX_Text(pDX, IDC_EDIT3_BULLET, m_fSpeed);
+	DDX_Control(pDX, IDC_CHECK1_BULLET, m_CheckBoxDestructable);
 	DDX_Text(pDX, IDC_EDIT_COUNT, m_iShotGunCount);
 	DDX_Text(pDX, IDC_EDIT_ANGLE, m_fShotGunAngle);
-	DDX_Control(pDX, IDC_LIST1, m_ListBox_BulletImage);
-	DDX_Control(pDX, IDC_LIST2, m_ListBox_BulletList);
-	DDX_Control(pDX, IDC_LIST3, m_ListBox_AnimList);
+	DDX_Control(pDX, IDC_LIST1_BULLET, m_ListBox_BulletImage);
+	DDX_Control(pDX, IDC_LIST2_BULLET, m_ListBox_BulletList);
+	DDX_Control(pDX, IDC_LIST3_BULLET, m_ListBox_AnimList);
 	DDX_Control(pDX, IDC_BT_PIC, m_BulletPicture);
 	DDX_Control(pDX, IDC_ANIM_PIC, m_PictureAnimation);
 }
@@ -52,16 +52,16 @@ void CBulletTool::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CBulletTool, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO1, &CBulletTool::OnCbnSelchangeBulletType)
-	ON_BN_CLICKED(IDC_BUTTON1, &CBulletTool::OnBnClickedAdd)
+	ON_BN_CLICKED(IDC_BUTTON1_BULLET, &CBulletTool::OnBnClickedAdd)
 	ON_WM_DROPFILES()
-	ON_LBN_SELCHANGE(IDC_LIST1, &CBulletTool::OnLbnSelchangeBulletImage)
-	ON_LBN_SELCHANGE(IDC_LIST2, &CBulletTool::OnLbnSelchangeBulletList)
-	ON_BN_CLICKED(IDC_BUTTON12, &CBulletTool::OnBnClickedButtonBulletDelete)
-	ON_BN_CLICKED(IDC_BUTTON10, &CBulletTool::OnBnClickedSave)
-	ON_BN_CLICKED(IDC_BUTTON11, &CBulletTool::OnBnClickedButtonLoad)
-	ON_BN_CLICKED(IDC_BUTTON9, &CBulletTool::OnBnClickedButtonLoadAnimation)
-	ON_LBN_SELCHANGE(IDC_LIST3, &CBulletTool::OnLbnSelchangeAnimation)
-	ON_BN_CLICKED(IDC_BUTTON2, &CBulletTool::OnBnClickedButtonDeleteImage)
+	ON_LBN_SELCHANGE(IDC_LIST1_BULLET, &CBulletTool::OnLbnSelchangeBulletImage)
+	ON_LBN_SELCHANGE(IDC_LIST2_BULLET, &CBulletTool::OnLbnSelchangeBulletList)
+	ON_BN_CLICKED(IDC_BUTTON12_BULLET, &CBulletTool::OnBnClickedButtonBulletDelete)
+	ON_BN_CLICKED(IDC_BUTTON10_BULLET, &CBulletTool::OnBnClickedSave)
+	ON_BN_CLICKED(IDC_BUTTON11_BULLET, &CBulletTool::OnBnClickedButtonLoad)
+	ON_BN_CLICKED(IDC_BUTTON9_BULLET, &CBulletTool::OnBnClickedButtonLoadAnimation)
+	ON_LBN_SELCHANGE(IDC_LIST3_BULLET, &CBulletTool::OnLbnSelchangeAnimation)
+	ON_BN_CLICKED(IDC_BUTTON2_BULLET, &CBulletTool::OnBnClickedButtonDeleteImage)
 END_MESSAGE_MAP()
 
 
