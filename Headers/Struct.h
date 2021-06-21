@@ -37,6 +37,7 @@ typedef struct tagInfo
 
 }INFO;
 
+
 typedef struct tagBulletData
 {
 	enum TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
@@ -60,3 +61,24 @@ typedef struct tagBulletData
 	int		iCount;
 
 }BULLETDATA;
+
+
+
+typedef struct tagAnimationInfo
+{
+#ifdef _AFX
+	CString wstrObjectKey;
+	CString wstrStateKey;
+	CString	wstrFilePath;
+#else
+	wstring wstrObjectKey;
+	wstring wstrStateKey;
+	wstring wstrFilePath;
+#endif
+	float	fPlay_Speed;
+	int		iMax_Index;
+	bool	bLoop;
+	bool	bIsSingle;
+
+}ANIMATION;
+
