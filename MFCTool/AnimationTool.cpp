@@ -64,7 +64,7 @@ BEGIN_MESSAGE_MAP(CAnimationTool, CDialog)
 	ON_LBN_SELCHANGE(IDC_LIST1, &CAnimationTool::OnLbnSelchangeAnimation_List)
 	ON_WM_DROPFILES()
 
-	ON_BN_CLICKED(IDC_BUTTON10, &CAnimationTool::OnBnClickedAddInfo)
+	ON_BN_CLICKED(IDC_BUTTON10_ANIM, &CAnimationTool::OnBnClickedAddInfo)
 	ON_BN_CLICKED(IDC_BUTTON11, &CAnimationTool::OnBnClickedDeleteAll)
 	ON_BN_CLICKED(IDC_BUTTON12, &CAnimationTool::OnBnClickedDeleteAnimationList)
 	ON_BN_CLICKED(IDC_BUTTON13, &CAnimationTool::OnBnClickedClearBox)

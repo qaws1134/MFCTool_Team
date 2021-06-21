@@ -38,6 +38,31 @@ typedef struct tagInfo
 }INFO;
 
 
+typedef struct tagBulletData
+{
+	enum TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
+#ifdef _AFX
+	CString cstrName;
+	CString cstrBulletImage_ObjectKey;
+	CString cstrAnimImage_ObjectKey;
+	CString cstrAnimImage_StateKey;
+#else
+	wstring wstrName;
+	wstring wstrBulletImage_ObjectKey;
+	wstring wstrAnimImage_ObjectKey;
+	wstring wstrAnimImage_StateKey;
+#endif
+	int		iAtk;
+	float	fSpeed;
+	bool	bDestructable;
+	BYTE	eType;
+//º¶∞«¿œ∂ß
+	float	fAngle;
+	int		iCount;
+
+}BULLETDATA;
+
+
 
 typedef struct tagAnimationInfo
 {
@@ -56,3 +81,4 @@ typedef struct tagAnimationInfo
 	bool	bIsSingle;
 
 }ANIMATION;
+
