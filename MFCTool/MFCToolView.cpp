@@ -155,6 +155,10 @@ void CMFCToolView::OnInitialUpdate()
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::MULTI_TEX, L"../Texture/Stage/Terrain/Tile/Tile%d.png", L"Terrain", L"Tile", 38)))
 		return;
 
+
+	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::MULTI_TEX, L"../Texture/Stage/Effect/Mega_Explosion/sp_megaexplosion_01_%d.png", L"Effect", L"Mega_Explosion", 24)))
+		return;
+
 	m_pTerrain = new CTerrain; 
 	if (FAILED(m_pTerrain->Ready_Terrain()))
 		return; 

@@ -36,3 +36,23 @@ typedef struct tagInfo
 	//D3DXVECTOR4; 
 
 }INFO;
+
+
+
+typedef struct tagAnimationInfo
+{
+#ifdef _AFX
+	CString wstrObjectKey;
+	CString wstrStateKey;
+	CString	wstrFilePath;
+#else
+	wstring wstrObjectKey;
+	wstring wstrStateKey;
+	wstring wstrFilePath;
+#endif
+	float	fPlay_Speed;
+	int		iMax_Index;
+	bool	bLoop;
+	bool	bIsSingle;
+
+}ANIMATION;
