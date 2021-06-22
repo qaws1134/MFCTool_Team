@@ -194,7 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationTool.h" />
-    <ClInclude Include="BulletTool.h" />
+    <ClInclude Include="ObjectTool.h" />
     <ClInclude Include="FileInfo.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="Graphic_Device.h" />
@@ -213,11 +213,10 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture_Manager.h" />
     <ClInclude Include="UiTool.h" />
-    <ClInclude Include="ObjectTool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationTool.cpp" />
-    <ClCompile Include="BulletTool.cpp" />
+    <ClCompile Include="ObjectTool.cpp" />
     <ClCompile Include="FileInfo.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
@@ -239,7 +238,6 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture_Manager.cpp" />
     <ClCompile Include="UiTool.cpp" />
-    <ClCompile Include="ObjectTool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCTool.rc" />

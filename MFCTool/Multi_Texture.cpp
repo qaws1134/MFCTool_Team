@@ -24,7 +24,11 @@ HRESULT CMulti_Texture::Insert_Texture(const wstring & wstrFilePath, const wstri
 			TCHAR szFilePath[MAX_PATH] = L"";
 			swprintf_s(szFilePath, wstrFilePath.c_str(), i);
 			if (FAILED(D3DXGetImageInfoFromFile(szFilePath, &pTexInfo->tImageInfo)))
+			{
+				Safe_Delete(pTexInfo);
 				goto ERR;
+			}
+				
 
 			if (FAILED(D3DXCreateTextureFromFileEx(CGraphic_Device::Get_Instance()->Get_Device(),
 				szFilePath,
@@ -41,14 +45,16 @@ HRESULT CMulti_Texture::Insert_Texture(const wstring & wstrFilePath, const wstri
 				nullptr,
 				nullptr,
 				&pTexInfo->pTexture)))
+			{
+				Safe_Delete(pTexInfo);
 				goto ERR;
+			}
 
 			m_mapMultiTex[wstrStateKey].emplace_back(pTexInfo);
 		}
 	}
 	return S_OK;
 ERR:
-
 	return E_NOTIMPL;
 }
 

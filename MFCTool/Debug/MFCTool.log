@@ -1,15 +1,4 @@
-﻿  AnimationTool.cpp
-  코드를 생성하고 있습니다...
-  건너뛰고 있습니다... (관련된 변경 내용 없음)
-  UiTool.cpp
-  ObjectTool.cpp
-  Miniview.cpp
-  MapTool.cpp
-  MainFrm.cpp
-  MFCToolView.cpp
-  MFCToolDoc.cpp
-  MFCTool.cpp
-  Form.cpp
-  BulletTool.cpp
+﻿  ObjectTool.cpp
+d:\study\jusin\teamhw\4-mfc\mfctool_team\mfctool\objecttool.cpp(167): warning C4800: 'int': 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
   MFCTool.vcxproj -> D:\Study\Jusin\TeamHW\4-MFC\MFCTool_Team\Debug\MFCTool.exe
   MFCTool.vcxproj -> D:\Study\Jusin\TeamHW\4-MFC\MFCTool_Team\Debug\MFCTool.pdb (Partial PDB)
