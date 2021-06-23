@@ -48,10 +48,10 @@ void CMapTool::OnDropFiles(HDROP hDropInfo)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	UpdateData(TRUE); 
-	int iCount = DragQueryFile(hDropInfo,0xffffffff, nullptr,0 );
+	int iShotGunCount = DragQueryFile(hDropInfo,0xffffffff, nullptr,0 );
 	TCHAR szFileFullPath[MAX_PATH]{}; 
 
-	for (int i = 0; i < iCount; ++i)
+	for (int i = 0; i < iShotGunCount; ++i)
 	{
 		DragQueryFile(hDropInfo, i, szFileFullPath, MAX_PATH);
 		CString wstrRelativePath = CFileInfo::ConvertRelativePath(szFileFullPath);

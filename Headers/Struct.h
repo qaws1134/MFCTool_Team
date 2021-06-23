@@ -38,29 +38,34 @@ typedef struct tagInfo
 }INFO;
 
 
-typedef struct tagBulletData
+typedef struct tagObjectInfo
 {
-	enum TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
+	enum OBJID { PLAYER, MONSTER, PLAYER_BULLET, ENEMY_BULLET, OBJID_END };
+	enum BULLET_TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
 #ifdef _AFX
 	CString cstrName;
-	CString cstrBulletImage_ObjectKey;
-	CString cstrAnimImage_ObjectKey;
-	CString cstrAnimImage_StateKey;
+	CString cstrObjectImage_ObjectKey;
+	CString cstrDeathAnimImage_ObjectKey;
+	CString cstrDeathAnimImage_StateKey;
 #else
 	wstring wstrName;
-	wstring wstrBulletImage_ObjectKey;
+	wstring wstrObjectImage_ObjectKey;
 	wstring wstrAnimImage_ObjectKey;
 	wstring wstrAnimImage_StateKey;
 #endif
-	int		iAtk;
-	float	fSpeed;
+	float	fMaxHp;
+	float	fAtk;
+	float	fAtkRatio;
+	float	fMoveSpeed;
+	BYTE	eObjId;
+//Bullet
 	bool	bDestructable;
-	BYTE	eType;
+	BYTE	eBulletType;
 //º¶∞«¿œ∂ß
-	float	fAngle;
-	int		iCount;
+	float	fShotGunAngle;
+	int		iShotGunCount;
 
-}BULLETDATA;
+}OBJECTINFO;
 
 
 

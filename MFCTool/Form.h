@@ -3,10 +3,9 @@
 
 
 // CForm Æû ºäÀÔ´Ï´Ù.
-#include "ObjectTool.h"
 #include "MapTool.h"
 #include "UiTool.h"
-#include "BulletTool.h"
+#include "ObjectTool.h"
 #include "AnimationTool.h"
 class CForm : public CFormView
 {
@@ -17,10 +16,9 @@ protected:
 	virtual ~CForm();
 
 public:
-	CObjectTool m_tObjectTool; 
 	CMapTool m_tMapTool; 
 	CAnimationTool m_tAnimationTool;
-	CBulletTool	m_tBulletTool;
+	CObjectTool	m_tBulletTool;
 	CUiTool	m_tUiTool;
 	
 #ifdef AFX_DESIGN_TIME
@@ -38,7 +36,6 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedUnitTool();
 	virtual void OnInitialUpdate();
 	afx_msg void OnBnClickedMapTool();
 	afx_msg void OnBnClickedUiTool();

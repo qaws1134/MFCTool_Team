@@ -20,5 +20,5 @@ public:
 private:
 	
 	float m_fAngle = 0.f; 
-	float m_fSpeed = 5.f; 
+	float m_fBulletSpeed = 5.f; 
 };

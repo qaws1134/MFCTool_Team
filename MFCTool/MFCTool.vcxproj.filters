@@ -49,14 +49,11 @@
     <Filter Include="01.View\Form\AnimationTool">
       <UniqueIdentifier>{d920b64f-9663-41fd-919e-d81105a46b45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.View\Form\BulletTool">
-      <UniqueIdentifier>{08daf43e-fe32-4125-bd3c-9a5f51205ee1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.View\Form\UiTool">
       <UniqueIdentifier>{7fcd1935-77d9-4f03-a003-0e4d2b5a4120}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.View\Form\ObjectTool">
-      <UniqueIdentifier>{0892e0e0-939c-40d7-9944-0cee6dc8ec08}</UniqueIdentifier>
+      <UniqueIdentifier>{08daf43e-fe32-4125-bd3c-9a5f51205ee1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,17 +108,14 @@
     <ClInclude Include="AnimationTool.h">
       <Filter>01.View\Form\AnimationTool</Filter>
     </ClInclude>
-    <ClInclude Include="BulletTool.h">
-      <Filter>01.View\Form\BulletTool</Filter>
-    </ClInclude>
     <ClInclude Include="UiTool.h">
       <Filter>01.View\Form\UiTool</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectTool.h">
-      <Filter>01.View\Form\ObjectTool</Filter>
-    </ClInclude>
     <ClInclude Include="FileInfo.h">
       <Filter>04.Fileinfo</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTool.h">
+      <Filter>01.View\Form\ObjectTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,17 +164,14 @@
     <ClCompile Include="AnimationTool.cpp">
       <Filter>01.View\Form\AnimationTool</Filter>
     </ClCompile>
-    <ClCompile Include="BulletTool.cpp">
-      <Filter>01.View\Form\BulletTool</Filter>
-    </ClCompile>
     <ClCompile Include="UiTool.cpp">
       <Filter>01.View\Form\UiTool</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectTool.cpp">
-      <Filter>01.View\Form\ObjectTool</Filter>
-    </ClCompile>
     <ClCompile Include="FileInfo.cpp">
       <Filter>04.Fileinfo</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTool.cpp">
+      <Filter>01.View\Form\ObjectTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

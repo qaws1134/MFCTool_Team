@@ -110,13 +110,13 @@ void CAnimationTool::OnDropFiles(HDROP hDropInfo)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	UpdateData(TRUE);
-	int iCount = DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
+	int iShotGunCount = DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
 	TCHAR szFileFullPath[MAX_PATH]{};
 
 	m_Drop = hDropInfo;
 
 
-	for (int i = 0; i < iCount; ++i)
+	for (int i = 0; i < iShotGunCount; ++i)
 	{
 		DragQueryFile(hDropInfo, i, szFileFullPath, MAX_PATH);
 
@@ -178,7 +178,7 @@ void CAnimationTool::OnDropFiles(HDROP hDropInfo)
 		if (m_wstrObject_Key != L""&& m_wstrState_Key != L"")
 		{
 			m_wstrFilePath = wstrMultiFilePath;
-			if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::MULTI_TEX, wstrMultiFilePath.GetString(), m_wstrObject_Key.GetString(), m_wstrState_Key.GetString(), iCount)))
+			if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::MULTI_TEX, wstrMultiFilePath.GetString(), m_wstrObject_Key.GetString(), m_wstrState_Key.GetString(), iShotGunCount)))
 			{
 				ERR_MSG(L"멀티 텍스쳐 실패");
 				return;
@@ -547,10 +547,10 @@ void CAnimationTool::OnLbnSelchangeAnimation_List()
 
 
 	//이미지 리스트박스에 저장된 파일 정보 출력 
-	int iCount = iter_find->second->iMax_Index;
+	int iShotGunCount = iter_find->second->iMax_Index;
 	TCHAR szFileFullPath[MAX_PATH]{};
 
-	for (int i = 0; i < iCount; ++i)
+	for (int i = 0; i < iShotGunCount; ++i)
 	{
 		TCHAR szFilePath[MAX_PATH] = L"";
 		swprintf_s(szFilePath, iter_find->second->wstrFilePath, i);
