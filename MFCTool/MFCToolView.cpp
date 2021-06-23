@@ -17,6 +17,7 @@
 #include "Miniview.h"
 #include "MapTool.h"
 #include "Form.h"
+#include "UiTool.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -70,7 +71,13 @@ void CMFCToolView::OnDraw(CDC* /*pDC*/)
 	// 그림을 그리기 위한 일련의 과정 
 	//1. 백버퍼를 비운다 
 	CGraphic_Device::Get_Instance()->Render_Begin(); 
-	m_pTerrain->Render_Terrain(); 
+	//m_pTerrain->Render_Terrain(); 
+	CMainFrame* pMain = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CMiniview* pView = dynamic_cast<CMiniview*>(pMain->m_tSecondSplitter.GetPane(0, 0));
+	CForm* pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
+	pForm->m_tUiTool.SetView(this);
+	pForm->m_tUiTool.Render_UI();
+
 	CGraphic_Device::Get_Instance()->Render_End();
 }
 
@@ -163,6 +170,8 @@ void CMFCToolView::OnInitialUpdate()
 	if (FAILED(m_pTerrain->Ready_Terrain()))
 		return; 
 	m_pTerrain->Set_View(this); 
+
+
 }
 
 
@@ -177,8 +186,11 @@ void CMFCToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMiniview* pView = dynamic_cast<CMiniview*>(pMain->m_tSecondSplitter.GetPane(0, 0));
 	CForm* pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
 
+	//UITOOL에 접근해서 ui가 선택되었는지 체크
 
-	m_pTerrain->TilePicking_Terrain(vMouse, pForm->m_tMapTool.m_iDrawID); 
+
+
+	//m_pTerrain->TilePicking_Terrain(vMouse, pForm->m_tMapTool.m_iDrawID); 
 	pView->Invalidate(FALSE); 
 
 	Invalidate(FALSE); 
