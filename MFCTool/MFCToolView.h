@@ -23,7 +23,7 @@ public:
 	CUiTool* m_pUiTool;
 	float m_fAngle = 0.f;
 	float m_fAlpha = 0.f; 
-	float m_fSpeed = 10.f; 
+	float m_fBulletSpeed = 10.f; 
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
