@@ -23,6 +23,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
+	void Update_Group_Bullet();
 	void Update_Group_ShotGun();
 
 public:
@@ -52,4 +53,13 @@ public:
 	float m_fObjAtkRatio;
 	float m_fObjMoveSpeed;
 	CComboBox m_ComboOBJID;
+	afx_msg void OnBnClickedButtonObjPlaystop();
+
+private:
+	bool	m_bIsPlaying_DeathAnimation;
+	int		m_iDeathAnimationIndex;
+public:
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	CButton m_ButtonAnimationPlay;
+	afx_msg void OnCbnSelchangeComboObjid();
 };

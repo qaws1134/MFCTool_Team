@@ -1,4 +1,4 @@
-// BulletTool.cpp : 구현 파일입니다.
+// ObjectTool.cpp : 구현 파일입니다.
 //
 
 #include "stdafx.h"
@@ -22,6 +22,8 @@ CObjectTool::CObjectTool(CWnd* pParent /*=NULL*/)
 	, m_fObjAtk(0.f)
 	, m_fObjAtkRatio(0.f)
 	, m_fObjMoveSpeed(0.f)
+	, m_bIsPlaying_DeathAnimation(false)
+	, m_iDeathAnimationIndex(0)
 {
 
 }
@@ -50,6 +52,30 @@ void CObjectTool::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_OBJATKSPD, m_fObjAtkRatio);
 	DDX_Text(pDX, IDC_EDIT_OBJMOVSPD, m_fObjMoveSpeed);
 	DDX_Control(pDX, IDC_COMBO_OBJID, m_ComboOBJID);
+	DDX_Control(pDX, IDC_BUTTON_OBJ_PLAYSTOP, m_ButtonAnimationPlay);
+}
+
+void CObjectTool::Update_Group_Bullet()
+{
+	int iIndex = m_ComboOBJID.GetCurSel();
+
+	if (iIndex == OBJECTINFO::ENEMY_BULLET || iIndex == OBJECTINFO::PLAYER_BULLET)
+	{
+		GetDlgItem(IDC_GROUP_BULLET)->ShowWindow(SW_NORMAL);
+		GetDlgItem(IDC_COMBO_BULLET_TYPE)->ShowWindow(SW_NORMAL);
+		GetDlgItem(IDC_CHECK1_BULLET)->ShowWindow(SW_NORMAL);
+		GetDlgItem(IDC_TEXT_BULLET_TYPE)->ShowWindow(SW_NORMAL);
+		GetDlgItem(IDC_TEXT_DESTRUCTABLE)->ShowWindow(SW_NORMAL);
+	}
+	else
+	{
+		GetDlgItem(IDC_GROUP_BULLET)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_COMBO_BULLET_TYPE)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_CHECK1_BULLET)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_TEXT_BULLET_TYPE)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_TEXT_DESTRUCTABLE)->ShowWindow(SW_HIDE);
+	}
+	Update_Group_ShotGun();
 }
 
 void CObjectTool::Update_Group_ShotGun()
@@ -87,6 +113,9 @@ BEGIN_MESSAGE_MAP(CObjectTool, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_OBJLOAD, &CObjectTool::OnBnClickedButtonLoad)
 	ON_BN_CLICKED(IDC_BUTTON_OBJLOADANIM, &CObjectTool::OnBnClickedButtonLoadAnimation)
 	ON_LBN_SELCHANGE(IDC_LIST3_OBJ, &CObjectTool::OnLbnSelchangeAnimation)
+	ON_BN_CLICKED(IDC_BUTTON_OBJ_PLAYSTOP, &CObjectTool::OnBnClickedButtonObjPlaystop)
+	ON_WM_TIMER()
+	ON_CBN_SELCHANGE(IDC_COMBO_OBJID, &CObjectTool::OnCbnSelchangeComboObjid)
 END_MESSAGE_MAP()
 
 
@@ -226,27 +255,30 @@ void CObjectTool::OnLbnSelchangeObjectList()
 	if (iter == m_mapObject.end())
 		return;
 
-	OBJECTINFO* pBulletData = iter->second;
+	OBJECTINFO* pObjectData = iter->second;
 		
-	m_cstrName = pBulletData->cstrName;
-	m_fMaxHp = pBulletData->fMaxHp;
-	m_fObjAtk = pBulletData->fAtk;
-	m_fObjAtkRatio = pBulletData->fAtkRatio;
-	m_fObjMoveSpeed = pBulletData->fMoveSpeed;
-	
-	int findIndex = m_ListBox_AnimList.FindStringExact(-1, pBulletData->cstrDeathAnimImage_ObjectKey + L"->" + pBulletData->cstrDeathAnimImage_StateKey);
+	m_cstrName = pObjectData->cstrName;
+	m_fMaxHp = pObjectData->fMaxHp;
+	m_fObjAtk = pObjectData->fAtk;
+	m_fObjAtkRatio = pObjectData->fAtkRatio;
+	m_fObjMoveSpeed = pObjectData->fMoveSpeed;
+	m_ComboOBJID.SetCurSel(pObjectData->eObjId);
+
+	int findIndex = m_ListBox_AnimList.FindStringExact(-1, pObjectData->cstrDeathAnimImage_ObjectKey + L"->" + pObjectData->cstrDeathAnimImage_StateKey);
 	if (findIndex != -1)
 		m_ListBox_AnimList.SetCurSel(findIndex);
 	
 	
-	m_BulletTypeSelectControl.SetCurSel(pBulletData->eBulletType);
-	m_CheckBoxDestructable.SetCheck(pBulletData->bDestructable);
 
+	m_BulletTypeSelectControl.SetCurSel(pObjectData->eBulletType);
+	m_CheckBoxDestructable.SetCheck(pObjectData->bDestructable);
+
+	Update_Group_Bullet();
 	Update_Group_ShotGun();
-	if (pBulletData->eBulletType == OBJECTINFO::BULLET_TYPE::SHOTGUN)
+	if (pObjectData->eBulletType == OBJECTINFO::BULLET_TYPE::SHOTGUN)
 	{
-		m_iShotGunCount = pBulletData->iShotGunCount;
-		m_fShotGunAngle = pBulletData->fShotGunAngle;
+		m_iShotGunCount = pObjectData->iShotGunCount;
+		m_fShotGunAngle = pObjectData->fShotGunAngle;
 	}
 	else
 	{
@@ -315,32 +347,32 @@ void CObjectTool::OnBnClickedSave()
 		// 난 쓸수 있어. 너넨 쓰지마 . // 메롱 쓸거지롱
 		for (auto& rPair : m_mapObject)
 		{
-			OBJECTINFO* pBullet = rPair.second;
-			strLen = pBullet->cstrName.GetLength() + 1;
+			OBJECTINFO* pObject = rPair.second;
+			strLen = pObject->cstrName.GetLength() + 1;
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
-			WriteFile(hFile, pBullet->cstrName.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+			WriteFile(hFile, pObject->cstrName.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
 
-			strLen = pBullet->cstrObjectImage_ObjectKey.GetLength() + 1;
+			strLen = pObject->cstrObjectImage_ObjectKey.GetLength() + 1;
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
-			WriteFile(hFile, pBullet->cstrObjectImage_ObjectKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+			WriteFile(hFile, pObject->cstrObjectImage_ObjectKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
 
-			strLen = pBullet->cstrDeathAnimImage_ObjectKey.GetLength() + 1;
+			strLen = pObject->cstrDeathAnimImage_ObjectKey.GetLength() + 1;
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
-			WriteFile(hFile, pBullet->cstrDeathAnimImage_ObjectKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+			WriteFile(hFile, pObject->cstrDeathAnimImage_ObjectKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
 
-			strLen = pBullet->cstrDeathAnimImage_StateKey.GetLength() + 1;
+			strLen = pObject->cstrDeathAnimImage_StateKey.GetLength() + 1;
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
-			WriteFile(hFile, pBullet->cstrDeathAnimImage_StateKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+			WriteFile(hFile, pObject->cstrDeathAnimImage_StateKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
 
-			WriteFile(hFile, &pBullet->fMaxHp, sizeof(float), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->fAtk, sizeof(float), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->fAtkRatio, sizeof(float), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->fMoveSpeed, sizeof(float), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->eObjId, sizeof(BYTE), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->bDestructable, sizeof(bool), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->eBulletType, sizeof(BYTE), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->fShotGunAngle, sizeof(float), &dwbyte, nullptr);
-			WriteFile(hFile, &pBullet->iShotGunCount, sizeof(int), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->fMaxHp, sizeof(float), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->fAtk, sizeof(float), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->fAtkRatio, sizeof(float), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->fMoveSpeed, sizeof(float), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->eObjId, sizeof(BYTE), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->bDestructable, sizeof(bool), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->eBulletType, sizeof(BYTE), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->fShotGunAngle, sizeof(float), &dwbyte, nullptr);
+			WriteFile(hFile, &pObject->iShotGunCount, sizeof(int), &dwbyte, nullptr);
 		}
 		CloseHandle(hFile);
 	}
@@ -382,7 +414,7 @@ void CObjectTool::OnBnClickedButtonLoad()
 
 		DWORD dwbyte = 0;
 		DWORD strLen;
-		OBJECTINFO* pBullet;
+		OBJECTINFO* pObject;
 		TCHAR *pBuff;
 		// 난 쓸수 있어. 너넨 쓰지마 . // 메롱 쓸거지롱
 		while (true)
@@ -393,44 +425,44 @@ void CObjectTool::OnBnClickedButtonLoad()
 			if (dwbyte == 0)
 				break;
 
-			pBullet = new OBJECTINFO;
+			pObject = new OBJECTINFO;
 
 			pBuff = new TCHAR[strLen]{};
 			ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);
-			pBullet->cstrName = pBuff;
+			pObject->cstrName = pBuff;
 			Safe_Delete(pBuff);
 
 			ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			pBuff = new TCHAR[strLen]{};
 			ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);
-			pBullet->cstrObjectImage_ObjectKey = pBuff;
+			pObject->cstrObjectImage_ObjectKey = pBuff;
 			Safe_Delete(pBuff);
 
 
 			ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			pBuff = new TCHAR[strLen]{};
 			ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);
-			pBullet->cstrDeathAnimImage_ObjectKey = pBuff;
+			pObject->cstrDeathAnimImage_ObjectKey = pBuff;
 			Safe_Delete(pBuff);
 
 			ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			pBuff = new TCHAR[strLen]{};
 			ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);
-			pBullet->cstrDeathAnimImage_StateKey = pBuff;
+			pObject->cstrDeathAnimImage_StateKey = pBuff;
 			Safe_Delete(pBuff);
 
-			ReadFile(hFile, &pBullet->fMaxHp, sizeof(float), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->fAtk, sizeof(float), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->fAtkRatio, sizeof(float), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->fMoveSpeed, sizeof(float), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->eObjId, sizeof(BYTE), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->bDestructable, sizeof(bool), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->eBulletType, sizeof(BYTE), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->fShotGunAngle, sizeof(float), &dwbyte, nullptr);
-			ReadFile(hFile, &pBullet->iShotGunCount, sizeof(int), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->fMaxHp, sizeof(float), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->fAtk, sizeof(float), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->fAtkRatio, sizeof(float), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->fMoveSpeed, sizeof(float), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->eObjId, sizeof(BYTE), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->bDestructable, sizeof(bool), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->eBulletType, sizeof(BYTE), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->fShotGunAngle, sizeof(float), &dwbyte, nullptr);
+			ReadFile(hFile, &pObject->iShotGunCount, sizeof(int), &dwbyte, nullptr);
 
-			m_mapObject.emplace(pBullet->cstrName, pBullet);
-			m_ListBox_ObjectList.AddString(pBullet->cstrName);
+			m_mapObject.emplace(pObject->cstrName, pObject);
+			m_ListBox_ObjectList.AddString(pObject->cstrName);
 		}
 		CloseHandle(hFile);
 	}
@@ -476,7 +508,7 @@ void CObjectTool::OnLbnSelchangeAnimation()
 	auto& iter_find = map.find(wstrFindName);
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
-	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(iter_find->second->wstrObjectKey.GetString(), iter_find->second->wstrStateKey.GetString(),0);
+	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(iter_find->second->wstrObjectKey.GetString(), iter_find->second->wstrStateKey.GetString(), m_iDeathAnimationIndex);
 	if (nullptr == pTexInfo)
 		return;
 	D3DXMATRIX matScale, matTrans, matWorld;
@@ -489,4 +521,66 @@ void CObjectTool::OnLbnSelchangeAnimation()
 	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(pTexInfo->pTexture, nullptr, &D3DXVECTOR3(fCenterX, fCenterY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	CGraphic_Device::Get_Instance()->Render_End(m_PictureAnimation.m_hWnd);
+}
+
+void CObjectTool::OnBnClickedButtonObjPlaystop()
+{
+	int iIndex = m_ListBox_AnimList.GetCurSel();
+
+	if (iIndex == LB_ERR)
+		return;
+
+	if (!m_bIsPlaying_DeathAnimation)
+	{
+		m_bIsPlaying_DeathAnimation = true;
+		SetTimer(1000, 0 ,NULL);
+		m_ButtonAnimationPlay.SetWindowText(L"Stop");
+	}
+	else
+	{
+		m_bIsPlaying_DeathAnimation = false;
+		KillTimer(1000);
+		m_ButtonAnimationPlay.SetWindowText(L"Play");
+	}
+}
+
+
+void CObjectTool::OnTimer(UINT_PTR nIDEvent)
+{
+	if (nIDEvent != 1000)
+		return;
+
+	int iIndex = m_ListBox_AnimList.GetCurSel();
+
+	CString wstrFindName;
+	m_ListBox_AnimList.GetText(iIndex, wstrFindName);
+	int i = 0;
+	// "->" 문자 삭제
+	for (; i < wstrFindName.GetLength(); ++i)
+	{
+		if (wstrFindName[i] == L'>')
+			break;
+	}
+	wstrFindName.Delete(i - 1, 2);
+
+	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
+	CForm*	pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
+	const map< CString, ANIMATION*>& map = pForm->m_tAnimationTool.m_mapAnima;
+
+	auto& iter_find = map.find(wstrFindName);
+
+	iter_find->second->fPlay_Speed;
+	++m_iDeathAnimationIndex;
+	if (m_iDeathAnimationIndex >= iter_find->second->iMax_Index)
+		m_iDeathAnimationIndex = 0;
+
+	OnLbnSelchangeAnimation();
+	SetTimer(1000, iter_find->second->fPlay_Speed * 1000.f, NULL);
+	CDialog::OnTimer(nIDEvent);
+}
+
+
+void CObjectTool::OnCbnSelchangeComboObjid()
+{
+	Update_Group_Bullet();
 }

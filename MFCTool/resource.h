@@ -79,6 +79,7 @@
 #define IDC_BUTTON_OBJADD               1039
 #define IDC_BUTTON2_BULLET              1040
 #define IDC_BUTTON_OBJDELIMG            1040
+#define IDC_BUTTON_OBJ_PLAYSTOP         1040
 #define IDC_BUTTON10_BULLET             1041
 #define IDC_BUTTON_OBJSAVE              1041
 #define IDC_BUTTON11_BULLET             1042
@@ -94,7 +95,9 @@
 #define IDC_EDIT_OBJMOVSPD              1049
 #define IDC_COMBO_OBJID                 1050
 #define IDC_EDIT_OBJWALK                1051
+#define IDC_TEXT_DESTRUCTABLE           1051
 #define IDC_BUTTON_OBJWALKADD           1052
+#define IDC_TEXT_BULLET_TYPE            1052
 #define IDC_EDIT_OBJDEAD                1053
 #define IDC_BUTTON_OBJWALKADD2          1054
 #define IDC_BUTTON_OBJDEADADD           1054
@@ -105,7 +108,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        314
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1051
+#define _APS_NEXT_CONTROL_VALUE         1053
 #define _APS_NEXT_SYMED_VALUE           316
 #endif
 #endif

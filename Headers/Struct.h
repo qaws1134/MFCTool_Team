@@ -40,7 +40,7 @@ typedef struct tagInfo
 
 typedef struct tagObjectInfo
 {
-	enum OBJID { PLAYER, MONSTER, PLAYER_BUULET, ENEMY_BULLET, OBJID_END };
+	enum OBJID { PLAYER, MONSTER, PLAYER_BULLET, ENEMY_BULLET, OBJID_END };
 	enum BULLET_TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
 #ifdef _AFX
 	CString cstrName;
