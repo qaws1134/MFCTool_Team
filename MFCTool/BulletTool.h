@@ -22,7 +22,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	map<CString, BULLETDATA*>	m_mapBullet;
+	map<CString, OBJECTINFO*>	m_mapBullet;
 public:
 	afx_msg void OnCbnSelchangeBulletType();
 	CStatic m_GroupBox;

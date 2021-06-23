@@ -6,6 +6,7 @@
 
 class CTerrain; 
 class CMFCToolDoc;
+class CUiTool;
 class CMFCToolView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
@@ -19,6 +20,7 @@ public:
 // 작업입니다.
 public:
 	CTerrain* m_pTerrain; 
+	CUiTool* m_pUiTool;
 	float m_fAngle = 0.f;
 	float m_fAlpha = 0.f; 
 	float m_fSpeed = 10.f; 

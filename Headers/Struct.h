@@ -38,7 +38,7 @@ typedef struct tagInfo
 }INFO;
 
 
-typedef struct tagBulletData
+typedef struct tagOBJECTINFO
 {
 	enum TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
 #ifdef _AFX
@@ -60,7 +60,7 @@ typedef struct tagBulletData
 	float	fAngle;
 	int		iCount;
 
-}BULLETDATA;
+}OBJECTINFO;
 
 
 
@@ -82,3 +82,29 @@ typedef struct tagAnimationInfo
 
 }ANIMATION;
 
+
+typedef struct tagMatrixInfo
+{
+	D3DXVECTOR3 mat[MATID::END];
+}MATRIXINFO;
+
+
+
+typedef struct tagPlacementInfo
+{	
+	tagPlacementInfo() :m_bRender(false){}
+	RENDERID::ID eRenderID;
+	MATRIXINFO m_tMatInfo;	//매트릭스를 조정할 백터를 저장
+	bool m_bRender;			//그려질지 말지를 결정
+	OBJECTINFO tPrafabInfo;  //완성된 프리펩 데이터는 있을 수도 있고 없을 수도 있음
+	
+							  	   
+	//싱글텍스쳐는 저장 될 수도 있고 안될 수도 있음
+#ifdef _AFX
+	CString wstrObjectKey;
+	CString	wstrFilePath;
+#else
+	wstring wstrObjectKey;
+	wstring wstrFilePath;
+#endif
+}PLACEMENT;

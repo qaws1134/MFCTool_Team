@@ -123,22 +123,22 @@ void CBulletTool::OnBnClickedAdd()
 	CString cstrImageObjectKey;
 	m_ListBox_BulletImage.GetText(iImageIndex, cstrImageObjectKey);
 
-	BULLETDATA*	pBulletData = new BULLETDATA;
-	pBulletData->bDestructable = m_CheckBoxDestructable.GetCheck();
-	pBulletData->cstrName = m_cstrName;
-	pBulletData->iAtk = m_iAtk;
-	pBulletData->fSpeed = m_fSpeed;
-	pBulletData->eType = (BULLETDATA::TYPE)iTypeIndex;
-	pBulletData->cstrBulletImage_ObjectKey = cstrImageObjectKey;
-	if (pBulletData->eType == BULLETDATA::TYPE::SHOTGUN) 
+	OBJECTINFO*	pOBJECTINFO = new OBJECTINFO;
+	pOBJECTINFO->bDestructable = m_CheckBoxDestructable.GetCheck();
+	pOBJECTINFO->cstrName = m_cstrName;
+	pOBJECTINFO->iAtk = m_iAtk;
+	pOBJECTINFO->fSpeed = m_fSpeed;
+	pOBJECTINFO->eType = (OBJECTINFO::TYPE)iTypeIndex;
+	pOBJECTINFO->cstrBulletImage_ObjectKey = cstrImageObjectKey;
+	if (pOBJECTINFO->eType == OBJECTINFO::TYPE::SHOTGUN) 
 	{
-		pBulletData->iCount = m_iShotGunCount;
-		pBulletData->fAngle = m_fShotGunAngle;
+		pOBJECTINFO->iCount = m_iShotGunCount;
+		pOBJECTINFO->fAngle = m_fShotGunAngle;
 	}
 	else
 	{
-		pBulletData->iCount = 0;
-		pBulletData->fAngle = 0.f;
+		pOBJECTINFO->iCount = 0;
+		pOBJECTINFO->fAngle = 0.f;
 	}
 	auto& iter = m_mapBullet.find(m_cstrName);
 	if (iter != m_mapBullet.end())
@@ -151,7 +151,7 @@ void CBulletTool::OnBnClickedAdd()
 		m_ListBox_BulletList.AddString(m_cstrName);
 	}
 		
-	m_mapBullet.emplace(m_cstrName, pBulletData); // Add는 수정도 가능
+	m_mapBullet.emplace(m_cstrName, pOBJECTINFO); // Add는 수정도 가능
 
 }
 
@@ -224,23 +224,23 @@ void CBulletTool::OnLbnSelchangeBulletList()
 	auto& iter = m_mapBullet.find(cstrName);
 	if (iter == m_mapBullet.end())
 		return;
-	BULLETDATA* pBulletData = iter->second;
+	OBJECTINFO* pOBJECTINFO = iter->second;
 	
 	
-	m_cstrName = pBulletData->cstrName;
-	m_iAtk = pBulletData->iAtk;
-	m_fSpeed = pBulletData->fSpeed;
-	m_CheckBoxDestructable.SetCheck(pBulletData->bDestructable);
-	m_BulletTypeSelectControl.SetCurSel(pBulletData->eType);
-	m_iShotGunCount = pBulletData->iCount;
-	m_fShotGunAngle = pBulletData->fSpeed;
+	m_cstrName = pOBJECTINFO->cstrName;
+	m_iAtk = pOBJECTINFO->iAtk;
+	m_fSpeed = pOBJECTINFO->fSpeed;
+	m_CheckBoxDestructable.SetCheck(pOBJECTINFO->bDestructable);
+	m_BulletTypeSelectControl.SetCurSel(pOBJECTINFO->eType);
+	m_iShotGunCount = pOBJECTINFO->iCount;
+	m_fShotGunAngle = pOBJECTINFO->fSpeed;
 
-	int iPictureIndex = m_ListBox_BulletImage.FindString(-1, pBulletData->cstrBulletImage_ObjectKey);
+	int iPictureIndex = m_ListBox_BulletImage.FindString(-1, pOBJECTINFO->cstrBulletImage_ObjectKey);
 
 	m_ListBox_BulletImage.SetCurSel(iPictureIndex);
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
-	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(pBulletData->cstrBulletImage_ObjectKey.GetString());
+	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(pOBJECTINFO->cstrBulletImage_ObjectKey.GetString());
 	if (nullptr == pTexInfo)
 		return;
 	D3DXMATRIX matScale, matTrans, matWorld;
@@ -291,7 +291,7 @@ void CBulletTool::OnBnClickedSave()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CFileDialog Dlg(FALSE,// FALSE가 다른이름으로 저장. 
 		L"dat",
-		L"BulletData.dat",
+		L"OBJECTINFO.dat",
 		OFN_OVERWRITEPROMPT);
 	TCHAR szFilePath[MAX_PATH]{};
 
@@ -316,7 +316,7 @@ void CBulletTool::OnBnClickedSave()
 		// 난 쓸수 있어. 너넨 쓰지마 . // 메롱 쓸거지롱
 		for (auto& rPair : m_mapBullet)
 		{
-			BULLETDATA* pBullet = rPair.second;
+			OBJECTINFO* pBullet = rPair.second;
 			strLen = pBullet->cstrName.GetLength() + 1;
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			WriteFile(hFile, pBullet->cstrName.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
@@ -378,7 +378,7 @@ void CBulletTool::OnBnClickedButtonLoad()
 
 		DWORD dwbyte = 0;
 		DWORD strLen;
-		BULLETDATA* pBullet;
+		OBJECTINFO* pBullet;
 		TCHAR *pBuff;
 		// 난 쓸수 있어. 너넨 쓰지마 . // 메롱 쓸거지롱
 		while (true)
@@ -389,7 +389,7 @@ void CBulletTool::OnBnClickedButtonLoad()
 			if (dwbyte == 0)
 				break;
 
-			pBullet = new BULLETDATA;
+			pBullet = new OBJECTINFO;
 
 			pBuff = new TCHAR[strLen]{};
 			ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);

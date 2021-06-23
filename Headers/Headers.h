@@ -12,9 +12,9 @@
 using namespace std; 
 #include "Define.h"
 #include "Extern.h"
-#include "Struct.h"
 #include "Function.h"
 #include "Enum.h"
+#include "Struct.h"
 #include "Graphic_Device.h"
 #include "Texture_Manager.h"
 

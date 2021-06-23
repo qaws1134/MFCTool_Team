@@ -624,9 +624,6 @@ void CAnimationTool::OnBnClickedClear_Info()
 }
 
 
-
-
-
 void CAnimationTool::OnTimer(UINT_PTR nIDEvent)
 {
 

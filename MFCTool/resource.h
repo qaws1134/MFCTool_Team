@@ -22,15 +22,22 @@
 #define IDC_EDIT4                       1004
 #define IDC_BUTTON9                     1004
 #define IDC_EDIT5                       1005
+#define IDC_BUTTON17_PLACE              1005
 #define IDC_BUTTON2                     1006
+#define IDC_BUTTON18_PLACE              1006
 #define IDC_LIST1                       1007
 #define IDC_RADIO1                      1008
 #define IDC_BUTTON12                    1008
+#define IDC_LIST4_PLACE                 1008
 #define IDC_RADIO2                      1009
 #define IDC_EDIT6                       1009
+#define IDC_BUTTON19_PLACE              1009
 #define IDC_RADIO3                      1010
+#define IDC_BUTTON20_PLACE              1010
 #define IDC_RADIO4                      1011
+#define IDC_BUTTON21_PLACE              1011
 #define IDC_RADIO5                      1012
+#define IDC_BUTTON22_PLACE              1012
 #define IDC_RADIO6                      1013
 #define IDC_CHECK1                      1014
 #define IDC_CHECK2                      1015
@@ -73,14 +80,38 @@
 #define IDC_BUTTON11_BULLET             1042
 #define IDC_BUTTON12_BULLET             1043
 #define IDC_BUTTON9_BULLET              1044
+#define IDC_EDIT7                       1045
+#define IDC_EDIT7_PLACE                 1045
+#define IDC_EDIT8                       1046
+#define IDC_EDIT8_PLACE                 1046
+#define IDC_EDIT9                       1047
+#define IDC_EDIT9_PLACE                 1047
+#define IDC_EDIT10                      1048
+#define IDC_EDIT10_PLACE                1048
+#define IDC_EDIT11                      1049
+#define IDC_EDIT11_PLACE                1049
+#define IDC_EDIT12                      1050
+#define IDC_EDIT12_PLACE                1050
+#define IDC_EDIT13                      1051
+#define IDC_EDIT13_PLACE                1051
+#define IDC_EDIT14                      1052
+#define IDC_EDIT14_PLACE                1052
+#define IDC_COMBO1_PLACE                1053
+#define IDC_LIST1_PLACE                 1054
+#define IDC_PICTURE_PLACE               1055
+#define IDC_LIST2_PLACE                 1056
+#define IDC_BUTTON8_PLACE               1057
+#define IDC_BUTTON9_PLACE               1058
+#define IDC_BUTTON1_PLACE               1059
+#define IDC_EDIT1_PLACE                 1060
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        314
+#define _APS_NEXT_RESOURCE_VALUE        317
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1045
+#define _APS_NEXT_CONTROL_VALUE         1061
 #define _APS_NEXT_SYMED_VALUE           316
 #endif
 #endif
