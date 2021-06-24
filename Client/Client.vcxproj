@@ -151,13 +151,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="Frame_Manager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObject_Manager.h" />
     <ClInclude Include="Graphic_Device.h" />
+    <ClInclude Include="Key_Manager.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="Multi_Texture.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Prefab_Manager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scene_Manager.h" />
@@ -169,15 +174,21 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture_Manager.h" />
+    <ClInclude Include="Time_Manager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Frame_Manager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObject_Manager.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
+    <ClCompile Include="Key_Manager.cpp" />
     <ClCompile Include="MainApp.cpp" />
     <ClCompile Include="Multi_Texture.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Prefab_Manager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene_Manager.cpp" />
     <ClCompile Include="Scroll_Manager.cpp" />
@@ -192,6 +203,7 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture_Manager.cpp" />
+    <ClCompile Include="Time_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

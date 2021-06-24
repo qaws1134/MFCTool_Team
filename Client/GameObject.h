@@ -12,8 +12,18 @@ public:
 	virtual void	Late_Update_GameObject()PURE; 
 	virtual void	Render_GameObject( )PURE; 
 	virtual void	Release_GameObject()PURE; 
+
+	virtual void	Set_Prefab(const OBJECTINFO* _pPrefab);
+	inline const RENDERID::ID&	Get_RenderId() const { return m_eRenderId; }
 protected:
+	bool	m_bDestroyed;
+#define m_bDead m_bDestroyed
+	
 	INFO m_tInfo; 
+	float m_fAngle = 0.f;
+	const OBJECTINFO*	m_pObjectInfo;
+
+	RENDERID::ID		m_eRenderId;
 	//INFO* m_pInfo; 
 };
 

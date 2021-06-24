@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Stage.h"
 #include "Terrain.h"
+#include "Prefab_Manager.h"
+#include "Player.h"
 
 CStage::CStage()
 {
@@ -14,7 +16,13 @@ CStage::~CStage()
 HRESULT CStage::Ready_Scene()
 {
 	CGameObject* pObject = CTerrain::Create(); 
-	CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(CGameObject_Manager::TERRAIN, pObject); 
+	CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECTINFO::BACKGROUND, pObject);
+	pObject = nullptr;
+
+	const OBJECTINFO* pPrefab = CPrefab_Manager::Get_Instance()->Get_ObjectPrefab(L"Player");
+	pObject = CPlayer::Create(pPrefab);
+	CGameObject_Manager::Get_Instance()->Add_GameObject_Manager((OBJECTINFO::OBJID)pPrefab->eObjId, pObject);
+	pObject = nullptr;
 
 	return S_OK;
 }

@@ -81,6 +81,10 @@ void CObjectTool::Update_Group_Bullet()
 void CObjectTool::Update_Group_ShotGun()
 {
 	int iIndex = m_BulletTypeSelectControl.GetCurSel();
+	if (iIndex == CB_ERR)
+	{
+		return;
+	}
 	CString strType;
 	CString strShotgun = _T("2»êÅº");
 	m_BulletTypeSelectControl.GetLBText(iIndex, strType);
@@ -188,6 +192,7 @@ void CObjectTool::OnBnClickedAdd()
 	pObjectData->fAtkRatio = m_fObjAtkRatio;
 	pObjectData->fMoveSpeed = m_fObjMoveSpeed;
 	pObjectData->eObjId = (OBJECTINFO::OBJID)iObjID;
+	pObjectData->cstrObjectImage_ObjectKey;
 	pObjectData->cstrDeathAnimImage_ObjectKey = iter_find->second->wstrObjectKey;
 	pObjectData->cstrDeathAnimImage_StateKey = iter_find->second->wstrStateKey;
 	
