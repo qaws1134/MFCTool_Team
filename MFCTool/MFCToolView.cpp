@@ -33,6 +33,8 @@ BEGIN_MESSAGE_MAP(CMFCToolView, CScrollView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CScrollView::OnFilePrintPreview)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 // CMFCToolView 생성/소멸
@@ -186,13 +188,40 @@ void CMFCToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMiniview* pView = dynamic_cast<CMiniview*>(pMain->m_tSecondSplitter.GetPane(0, 0));
 	CForm* pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
 
-	//UITOOL에 접근해서 ui가 선택되었는지 체크
 
-
-
-	//m_pTerrain->TilePicking_Terrain(vMouse, pForm->m_tMapTool.m_iDrawID); 
+	pForm->m_tUiTool.PickingPos(vMouse);
+	//여기서 충돌 체크 
+	pForm->m_tUiTool.Collision_Down(vMouse);
 	pView->Invalidate(FALSE); 
 
 	Invalidate(FALSE); 
 	CScrollView::OnLButtonDown(nFlags, point);
+}
+
+
+void CMFCToolView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	D3DXVECTOR3 vMouse{ float(point.x) + GetScrollPos(SB_HORZ), float(point.y) + GetScrollPos(SB_VERT), 0.f };
+	CMainFrame* pMain = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CMiniview* pView = dynamic_cast<CMiniview*>(pMain->m_tSecondSplitter.GetPane(0, 0));
+	CForm* pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
+
+	pForm->m_tUiTool.Collision_Move(vMouse);
+
+	CScrollView::OnMouseMove(nFlags, point);
+}
+
+
+void CMFCToolView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	D3DXVECTOR3 vMouse{ float(point.x) + GetScrollPos(SB_HORZ), float(point.y) + GetScrollPos(SB_VERT), 0.f };
+	CMainFrame* pMain = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CMiniview* pView = dynamic_cast<CMiniview*>(pMain->m_tSecondSplitter.GetPane(0, 0));
+	CForm* pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
+
+	pForm->m_tUiTool.Collision_Up();
+	CScrollView::OnLButtonUp(nFlags, point);
 }

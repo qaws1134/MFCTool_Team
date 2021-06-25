@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "Client.h"
 #include "MainApp.h"
-
+#include "Frame_Manager.h"
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -48,6 +48,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return 0; 
 
     // 기본 메시지 루프입니다.
+	CFrame_Manager pFrame;
+	pFrame.Ready_Frame_Manager(60);
 	DWORD dwOldTime = GetTickCount(); 
     while (WM_QUIT != msg.message)
     {
@@ -59,10 +61,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				DispatchMessage(&msg);
 			}
 		}
-		if (dwOldTime + 10 < GetTickCount())
+		if (pFrame.FrameLock())
 		{
 			pMain->Update_MainApp(); 
 			pMain->Render_MainApp();
+			pFrame.Render_Frame_Manager();
 			dwOldTime = GetTickCount(); 
 		}
     }

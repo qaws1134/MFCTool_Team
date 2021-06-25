@@ -26,6 +26,14 @@ public:
 	void PickingPos(D3DXVECTOR3 vMouse);
 	void Render_UI();
 	void SetView(CMFCToolView* pView) { m_pView = pView; }
+	bool ColArrow(D3DXVECTOR3 vMouse,RECT rc);
+
+	bool ColCircle(D3DXVECTOR3 vMouse);
+
+	void Collision_Move(D3DXVECTOR3 vMouse);
+	void Collision_Down(D3DXVECTOR3 vMouse);
+	void Collision_Up();
+
 public :
 	afx_msg void OnBnClickedTranslation();
 	afx_msg void OnBnClickedRotation();
@@ -43,18 +51,19 @@ public :
 	afx_msg void OnLbnSelchangeResultList();
 
 	CString m_wstrObjID;
-	CString m_strID;
+
 	CStatic m_Picture;
+	CStatic m_Picture_Prefab;
+
 	CComboBox m_ComboID;
 	CListBox m_Image_ListBox;
 	CListBox m_Prefab_ListBox;
 	CListBox m_Result_ListBox;
+	afx_msg void OnBnClickedMouseTrans();
+	CString m_wstrMatMod;
 
 	float m_fPosX;
 	float m_fPosY;
-	float m_fPosZ;
-	float m_fRotX;
-	float m_fRotY;
 	float m_fRotZ;
 	float m_fScaleX;
 	float m_fScaleY;
@@ -66,11 +75,29 @@ private :
 
 	list<int>m_listResult;
 
+	CString m_wstrID;		//텍스트박스 아이디를 저장할 변수
 
-	MATRIXINFO m_tMatInfo;
 	CMFCToolView* m_pView;
 
-	bool m_bMatLine;
+	bool m_bMatTrans;
+	bool m_bMatRot;
+	bool m_bMatScale;
+	bool m_bPicking;
+	bool m_bPicKingStart;
+
+	bool m_bArrowX;
+	bool m_bArrowY;
+	bool m_bCircle;
+	bool m_bMouseDown;
+	D3DXVECTOR3 m_vStartMouse;
+	D3DXVECTOR3 m_vStartPos;
+
+	int m_iNowResultIdx;
+
+	int m_KeyIndex;
 
 
+	bool m_beIDObject;
+public:
+	afx_msg void OnLbnSelchangePrefabList();
 };

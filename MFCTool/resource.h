@@ -126,6 +126,8 @@
 #define IDC_BUTTON9_PLACE               1058
 #define IDC_BUTTON1_PLACE               1059
 #define IDC_EDIT1_PLACE                 1060
+#define IDC_PICTURE_PLACE2              1061
+#define IDC_MAT_MOD_PLACE               1062
 
 // Next default values for new objects
 // 
@@ -133,7 +135,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        317
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1053
+#define _APS_NEXT_CONTROL_VALUE         1063
 #define _APS_NEXT_SYMED_VALUE           316
 #endif
 #endif

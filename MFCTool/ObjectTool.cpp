@@ -83,6 +83,7 @@ void CObjectTool::Update_Group_Bullet()
 void CObjectTool::Update_Group_ShotGun()
 {
 	int iIndex = m_BulletTypeSelectControl.GetCurSel();
+
 	if (iIndex == CB_ERR)
 	{
 		return;
