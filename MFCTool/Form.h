@@ -18,7 +18,7 @@ protected:
 public:
 	CMapTool m_tMapTool; 
 	CAnimationTool m_tAnimationTool;
-	CObjectTool	m_tBulletTool;
+	CObjectTool	m_tObjectTool;
 	CUiTool	m_tUiTool;
 	
 #ifdef AFX_DESIGN_TIME

@@ -59,8 +59,8 @@ void CForm::OnInitialUpdate() // 이것도 내가 재정의 함.
 		m_tMapTool.Create(IDD_MAPTOOL);
 	if (nullptr == m_tAnimationTool.GetSafeHwnd())
 		m_tAnimationTool.Create(IDD_ANIMATIONTOOL);
-	if (nullptr == m_tBulletTool.GetSafeHwnd())
-		m_tBulletTool.Create(IDD_OBJECTTOOL);
+	if (nullptr == m_tObjectTool.GetSafeHwnd())
+		m_tObjectTool.Create(IDD_OBJECTTOOL);
 	if (nullptr == m_tUiTool.GetSafeHwnd())
 		m_tUiTool.Create(IDD_UITOOL);
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
@@ -91,5 +91,5 @@ void CForm::OnBnClickedAnimationTool()
 void CForm::OnBnClickedBulletTool()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_tBulletTool.ShowWindow(SW_SHOW);
+	m_tObjectTool.ShowWindow(SW_SHOW);
 }

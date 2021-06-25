@@ -81,6 +81,11 @@ void CObjectTool::Update_Group_Bullet()
 void CObjectTool::Update_Group_ShotGun()
 {
 	int iIndex = m_BulletTypeSelectControl.GetCurSel();
+
+	if (iIndex == CB_ERR)
+	{
+		return;
+	}
 	CString strType;
 	CString strShotgun = _T("2ªÍ≈∫");
 	m_BulletTypeSelectControl.GetLBText(iIndex, strType);

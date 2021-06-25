@@ -29,7 +29,6 @@ HRESULT CMulti_Texture::Insert_Texture(const wstring & wstrFilePath, const wstri
 				goto ERR;
 			}
 				
-
 			if (FAILED(D3DXCreateTextureFromFileEx(CGraphic_Device::Get_Instance()->Get_Device(),
 				szFilePath,
 				pTexInfo->tImageInfo.Width, // 그림 가로
