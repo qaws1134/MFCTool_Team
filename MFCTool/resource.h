@@ -68,8 +68,10 @@
 #define IDC_EDIT_ANGLE_SG               1028
 #define IDC_BUTTON16                    1029
 #define IDC_PIC_OBJWALK                 1029
+#define IDC_PIC_OBJECT                  1029
 #define IDC_LIST2                       1030
 #define IDC_PIC_OBJDEAD                 1030
+#define IDC_LIST_OBJPIC                 1030
 #define IDC_BUTTON10                    1031
 #define IDC_BUTTON10_ANIM               1031
 #define IDC_BUTTON11                    1032
@@ -125,6 +127,7 @@
 #define IDC_BUTTON1_PLACE               1059
 #define IDC_EDIT1_PLACE                 1060
 #define IDC_MAT_MOD_PLACE               1062
+
 
 // Next default values for new objects
 // 

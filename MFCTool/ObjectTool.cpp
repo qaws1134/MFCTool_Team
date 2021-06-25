@@ -53,6 +53,8 @@ void CObjectTool::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_OBJMOVSPD, m_fObjMoveSpeed);
 	DDX_Control(pDX, IDC_COMBO_OBJID, m_ComboOBJID);
 	DDX_Control(pDX, IDC_BUTTON_OBJ_PLAYSTOP, m_ButtonAnimationPlay);
+	DDX_Control(pDX, IDC_PIC_OBJECT, m_PictureObject);
+	DDX_Control(pDX, IDC_LIST_OBJPIC, m_ListBox_ObjImage);
 }
 
 void CObjectTool::Update_Group_Bullet()
@@ -121,6 +123,7 @@ BEGIN_MESSAGE_MAP(CObjectTool, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_OBJ_PLAYSTOP, &CObjectTool::OnBnClickedButtonObjPlaystop)
 	ON_WM_TIMER()
 	ON_CBN_SELCHANGE(IDC_COMBO_OBJID, &CObjectTool::OnCbnSelchangeComboObjid)
+	ON_LBN_SELCHANGE(IDC_LIST_OBJPIC, &CObjectTool::OnLbnSelchangeListObjpic)
 END_MESSAGE_MAP()
 
 
@@ -151,6 +154,9 @@ void CObjectTool::OnBnClickedAdd()
 		return;
 	}
 
+	int iImage = m_ListBox_ObjImage.GetCurSel();
+
+
 	int iDeathAnimationIndex = m_ListBox_AnimList.GetCurSel();
 	if (iDeathAnimationIndex == LB_ERR)
 	{
@@ -178,6 +184,7 @@ void CObjectTool::OnBnClickedAdd()
 		ERR_MSG(L"애니메이션을 찾지 못했습니다.");
 		return;
 	}
+	cstrName = L"";
 
 	int iBulletTypeIndex = m_BulletTypeSelectControl.GetCurSel();
 
@@ -193,6 +200,27 @@ void CObjectTool::OnBnClickedAdd()
 	pObjectData->fAtkRatio = m_fObjAtkRatio;
 	pObjectData->fMoveSpeed = m_fObjMoveSpeed;
 	pObjectData->eObjId = (OBJECTINFO::OBJID)iObjID;
+	if (iImage == LB_ERR)
+	{
+		pObjectData->cstrObjectImage_ObjectKey = L"";
+		pObjectData->cstrObjectImage_Path = L"";
+	}
+	else
+	{
+		m_ListBox_ObjImage.GetText(iImage, cstrName);
+		auto& iter_find = m_mapKeyToPath.find(cstrName);
+		if (iter_find == m_mapKeyToPath.end())
+		{
+			pObjectData->cstrObjectImage_ObjectKey = L"";
+			pObjectData->cstrObjectImage_Path = L"";
+		}
+		else
+		{
+			pObjectData->cstrObjectImage_ObjectKey = cstrName;
+			pObjectData->cstrObjectImage_Path = iter_find->second;
+		}
+		cstrName = L"";
+	}
 	pObjectData->cstrDeathAnimImage_ObjectKey = iter_find->second->wstrObjectKey;
 	pObjectData->cstrDeathAnimImage_StateKey = iter_find->second->wstrStateKey;
 	
@@ -231,10 +259,10 @@ void CObjectTool::OnBnClickedAdd()
 void CObjectTool::OnDropFiles(HDROP hDropInfo)
 {
 	UpdateData(TRUE);
-	int iShotGunCount = DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
+	int iDropCount = DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
 	TCHAR szFileFullPath[MAX_PATH]{};
-
-	for (int i = 0; i < iShotGunCount; ++i)
+	
+	for (int i = 0; i < iDropCount; ++i)
 	{
 		DragQueryFile(hDropInfo, i, szFileFullPath, MAX_PATH);
 		CString wstrRelativePath = CFileInfo::ConvertRelativePath(szFileFullPath);
@@ -242,6 +270,12 @@ void CObjectTool::OnDropFiles(HDROP hDropInfo)
 		TCHAR szFileName[MAX_PATH]{};
 		lstrcpy(szFileName, wstrFileNameAndEx.GetString());
 		PathRemoveExtension(szFileName);
+		auto& iter_find = m_mapKeyToPath.find(szFileName);
+		if (iter_find != m_mapKeyToPath.end())
+			continue;
+		m_ListBox_ObjImage.AddString(szFileName);
+		CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX, wstrRelativePath.GetString(), szFileName);
+		m_mapKeyToPath.emplace(szFileName, wstrRelativePath);
 	}
 	UpdateData(FALSE);
 	CDialog::OnDropFiles(hDropInfo);
@@ -271,9 +305,19 @@ void CObjectTool::OnLbnSelchangeObjectList()
 
 	int findIndex = m_ListBox_AnimList.FindStringExact(-1, pObjectData->cstrDeathAnimImage_ObjectKey + L"->" + pObjectData->cstrDeathAnimImage_StateKey);
 	if (findIndex != -1)
+	{
 		m_ListBox_AnimList.SetCurSel(findIndex);
-	
-	
+		OnLbnSelchangeAnimation();
+	}
+		
+
+	findIndex = m_ListBox_ObjImage.FindStringExact(-1, pObjectData->cstrObjectImage_ObjectKey);
+	if (findIndex != -1)
+	{
+		m_ListBox_ObjImage.SetCurSel(findIndex);
+		OnLbnSelchangeListObjpic();
+	}
+		
 
 	m_BulletTypeSelectControl.SetCurSel(pObjectData->eBulletType);
 	m_CheckBoxDestructable.SetCheck(pObjectData->bDestructable);
@@ -290,7 +334,7 @@ void CObjectTool::OnLbnSelchangeObjectList()
 		m_iShotGunCount = 0;
 		m_fShotGunAngle = 0.f;
 	}
-	OnLbnSelchangeAnimation();
+
 	UpdateData(FALSE);
 }
 
@@ -361,6 +405,10 @@ void CObjectTool::OnBnClickedSave()
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			WriteFile(hFile, pObject->cstrObjectImage_ObjectKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
 
+			strLen = pObject->cstrObjectImage_Path.GetLength() + 1;
+			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
+			WriteFile(hFile, pObject->cstrObjectImage_Path.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+
 			strLen = pObject->cstrDeathAnimImage_ObjectKey.GetLength() + 1;
 			WriteFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			WriteFile(hFile, pObject->cstrDeathAnimImage_ObjectKey.GetString(), sizeof(TCHAR) * strLen, &dwbyte, nullptr);
@@ -387,6 +435,12 @@ void CObjectTool::OnBnClickedSave()
 void CObjectTool::OnBnClickedButtonLoad()
 {
 	OnBnClickedButtonLoadAnimation();
+
+	if (m_ListBox_AnimList.GetCount() <= 0)
+	{
+		ERR_MSG(L"애니메이션툴을 먼저 로드해주세요");
+		return;
+	}
 
 	CFileDialog Dlg(TRUE,// FALSE가 다른이름으로 저장. 
 		L"dat",
@@ -415,7 +469,9 @@ void CObjectTool::OnBnClickedButtonLoad()
 			Safe_Delete(rPair.second);
 		}
 		m_mapObject.clear();
+		m_mapKeyToPath.clear();
 		m_ListBox_ObjectList.ResetContent();
+		m_ListBox_ObjImage.ResetContent();
 
 		DWORD dwbyte = 0;
 		DWORD strLen;
@@ -443,6 +499,11 @@ void CObjectTool::OnBnClickedButtonLoad()
 			pObject->cstrObjectImage_ObjectKey = pBuff;
 			Safe_Delete(pBuff);
 
+			ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
+			pBuff = new TCHAR[strLen]{};
+			ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+			pObject->cstrObjectImage_Path = pBuff;
+			Safe_Delete(pBuff);
 
 			ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 			pBuff = new TCHAR[strLen]{};
@@ -468,6 +529,11 @@ void CObjectTool::OnBnClickedButtonLoad()
 
 			m_mapObject.emplace(pObject->cstrName, pObject);
 			m_ListBox_ObjectList.AddString(pObject->cstrName);
+			m_mapKeyToPath.emplace(pObject->cstrObjectImage_ObjectKey, pObject->cstrObjectImage_Path);
+			m_ListBox_ObjImage.AddString(pObject->cstrObjectImage_ObjectKey);
+			
+
+			CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX, pObject->cstrObjectImage_Path.GetString(), pObject->cstrObjectImage_ObjectKey.GetString());
 		}
 		CloseHandle(hFile);
 	}
@@ -588,4 +654,51 @@ void CObjectTool::OnTimer(UINT_PTR nIDEvent)
 void CObjectTool::OnCbnSelchangeComboObjid()
 {
 	Update_Group_Bullet();
+}
+
+
+void CObjectTool::OnLbnSelchangeListObjpic()
+{
+	int iIndex = m_ListBox_ObjImage.GetCurSel();
+
+	if (iIndex == LB_ERR)
+	{
+		return;
+	}
+
+	CString cstrName;
+	m_ListBox_ObjImage.GetText(iIndex, cstrName);
+
+	CGraphic_Device::Get_Instance()->Render_Begin();
+	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(cstrName.GetString());
+	if (nullptr == pTexInfo)
+		return;
+	D3DXMATRIX matScale, matTrans, matWorld;
+	D3DXMatrixScaling(&matScale, WINCX / pTexInfo->tImageInfo.Width, WINCX / pTexInfo->tImageInfo.Height, 0.f);
+	D3DXMatrixTranslation(&matTrans, 400.f, 300.f, 0.f);
+	matWorld = matScale * matTrans;
+	float fCenterX = float(pTexInfo->tImageInfo.Width >> 1);
+	float fCenterY = float(pTexInfo->tImageInfo.Height >> 1);
+	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(pTexInfo->pTexture, nullptr, &D3DXVECTOR3(fCenterX, fCenterY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	CGraphic_Device::Get_Instance()->Render_End(m_PictureObject.m_hWnd);
+}
+
+
+BOOL CObjectTool::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	m_ComboOBJID.ResetContent();
+	m_ComboOBJID.AddString(L"0BackGround");
+	m_ComboOBJID.AddString(L"1Player");
+	m_ComboOBJID.AddString(L"2Monster");
+	m_ComboOBJID.AddString(L"3Player_Bullet");
+	m_ComboOBJID.AddString(L"4Enemy_Bullet");
+	m_ComboOBJID.AddString(L"5Effect");
+	m_ComboOBJID.AddString(L"6Ui");
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

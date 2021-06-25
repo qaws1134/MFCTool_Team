@@ -9,12 +9,19 @@
 
 
 #include <string>
-using namespace std; 
+using namespace std;
 #include "Define.h"
 #include "Extern.h"
-#include "Function.h"
 #include "Enum.h"
 #include "Struct.h"
+#include "Function.h"
 #include "Graphic_Device.h"
 #include "Texture_Manager.h"
+#ifndef _AFX
+#include "Time_Manager.h"
+#include "GameObject_Manager.h"
+#include "Key_Manager.h"
+#include "Scroll_Manager.h"
+
+#endif
 
