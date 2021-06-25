@@ -59,6 +59,7 @@ void CUiTool::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT12_PLACE, m_fScaleY);
 	DDX_Text(pDX, IDC_EDIT1_PLACE, m_wstrObjID);
 	DDX_Text(pDX, IDC_MAT_MOD_PLACE, m_wstrMatMod);
+	DDX_Control(pDX, IDC_PICTURE_PLACE2, m_Picture_Prefab);
 }
 
 
@@ -76,6 +77,7 @@ BEGIN_MESSAGE_MAP(CUiTool, CDialog)
 	ON_WM_DROPFILES()
 	ON_LBN_SELCHANGE(IDC_LIST4_PLACE, &CUiTool::OnLbnSelchangeResultList)
 	ON_BN_CLICKED(IDC_BUTTON1, &CUiTool::OnBnClickedMouseTrans)
+	ON_LBN_SELCHANGE(IDC_LIST2_PLACE, &CUiTool::OnLbnSelchangePrefabList)
 END_MESSAGE_MAP()
 
 
@@ -788,23 +790,24 @@ void CUiTool::OnBnClickedResultLoad()
 		DWORD dwStringSize = 0;
 
 		TCHAR* pBuf = nullptr;
-		PLACEMENT* pPlacement = 0;
+		PLACEMENT* pPlacement = nullptr;
 
 		while (true)
 		{
 			pPlacement = new PLACEMENT;
-
 			ReadFile(hFile, &pPlacement->eRenderID, sizeof(int), &dwbyte, nullptr);
 			if (0 == dwbyte)
+			{
+				Safe_Delete(pPlacement);
 				break;
+			}
 			ReadFile(hFile, &pPlacement->m_tMatInfo.mat[MATID::TRANS], sizeof(D3DXVECTOR3), &dwbyte, nullptr);
 			ReadFile(hFile, &pPlacement->m_tMatInfo.mat[MATID::ROT], sizeof(D3DXVECTOR3), &dwbyte, nullptr);
 			ReadFile(hFile, &pPlacement->m_tMatInfo.mat[MATID::SCALE], sizeof(D3DXVECTOR3), &dwbyte, nullptr);
 
 			ReadFile(hFile, &pPlacement->m_bRender, sizeof(bool), &dwbyte, nullptr);
 
-			//if (pPlacement->eRenderID == RENDERID::OBJECT)
-			//{
+
 			ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwbyte, nullptr);
 			pBuf = new TCHAR[dwStringSize];
 			ReadFile(hFile, pBuf, dwStringSize, &dwbyte, nullptr);
@@ -928,11 +931,29 @@ void CUiTool::OnLbnSelchangeResultList()
 	{
 		int iImageIdx = 0;
 		//프리팹 리스트박스에서 키값과 같은 스트링을 찾아 커서로 가리킴 
-		if ((iImageIdx = m_Prefab_ListBox.FindStringExact(-1, iter->second->wstrPrefabName)) != LB_ERR)
+		if ((iImageIdx = m_Prefab_ListBox.FindStringExact(-1, iter->second->wstrPrefabName)) == LB_ERR)
 		{
-			m_Prefab_ListBox.SetCurSel(iImageIdx);
+			ERR_MSG(L"프리펩 이미지가 없다 왜 없냐? 뭔가 이상한데?");
+			return;
 		}
+
+			m_Prefab_ListBox.SetCurSel(iImageIdx);
+		CString wstrFileName;
+		m_Prefab_ListBox.GetText(iImageIdx, wstrFileName);
+
+		CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
+		CForm*	pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
+		const map<CString, OBJECTINFO*>& map = pForm->m_tObjectTool.m_mapObject;
+
+		CString wstrPrefabKey;
+		auto& iter_find = map.find(wstrFileName);
+		wstrPrefabKey = iter_find->second->cstrObjectImage_ObjectKey;
+		SetImageView(wstrPrefabKey.GetString(), m_Picture_Prefab);
 	}
+
+
+
+
 	m_bMatTrans = false;
 	m_bMatScale = false;
 	m_bMatRot = false;
@@ -964,4 +985,21 @@ void CUiTool::OnBnClickedMouseTrans()
 		return;
 	}
 
+}
+
+
+void CUiTool::OnLbnSelchangePrefabList()
+{
+	int iListCursor = m_Prefab_ListBox.GetCurSel();
+	CString wstrFileName;
+	m_Prefab_ListBox.GetText(iListCursor, wstrFileName);
+
+	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
+	CForm*	pForm = dynamic_cast<CForm*>(pMain->m_tSecondSplitter.GetPane(1, 0));
+	const map<CString, OBJECTINFO*>& map = pForm->m_tObjectTool.m_mapObject;
+
+	CString wstrPrefabKey;
+	auto& iter_find = map.find(wstrFileName);
+	wstrPrefabKey = iter_find->second->cstrObjectImage_ObjectKey;
+	SetImageView(wstrPrefabKey.GetString(), m_Picture_Prefab);
 }

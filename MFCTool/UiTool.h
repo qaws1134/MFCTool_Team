@@ -53,6 +53,7 @@ public :
 	CString m_wstrObjID;
 
 	CStatic m_Picture;
+	CStatic m_Picture_Prefab;
 
 	CComboBox m_ComboID;
 	CListBox m_Image_ListBox;
@@ -97,5 +98,6 @@ private :
 
 
 	bool m_beIDObject;
-
+public:
+	afx_msg void OnLbnSelchangePrefabList();
 };

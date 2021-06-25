@@ -126,8 +126,8 @@
 #define IDC_BUTTON9_PLACE               1058
 #define IDC_BUTTON1_PLACE               1059
 #define IDC_EDIT1_PLACE                 1060
+#define IDC_PICTURE_PLACE2              1061
 #define IDC_MAT_MOD_PLACE               1062
-
 
 // Next default values for new objects
 // 

@@ -101,11 +101,10 @@ typedef struct tagMatrixInfo
 
 typedef struct tagPlacementInfo
 {	
-	tagPlacementInfo() :m_bRender(false)/*tPrafabInfo(nullptr)*/{}
+	tagPlacementInfo() :m_bRender(false){}
 	RENDERID::ID eRenderID;
 	MATRIXINFO m_tMatInfo;	//매트릭스를 조정할 백터를 저장
 	bool m_bRender;			//그려질지 말지를 결정
-	//OBJECTINFO* tPrafabInfo;  //완성된 프리펩 데이터는 있을 수도 있고 없을 수도 있음
 	
 #ifdef _AFX
 	CString wstrPrefabName;
