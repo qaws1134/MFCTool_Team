@@ -64,7 +64,7 @@ void CBullet::Late_Update_GameObject()
 
 void CBullet::Render_GameObject()
 {
-	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(/*m_pObjectInfo->wstrObjectImage_ObjectKey*/L"Player");
+	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(m_pObjectInfo->wstrObjectImage_ObjectKey);
 	if (nullptr == pTexInfo)
 		return;
 	D3DXMATRIX matScale, matRotZ, matTrans, matWorld;

@@ -79,6 +79,11 @@ HRESULT CPrefab_Manager::LoadObjectPrefab()
 		pObject->wstrObjectImage_ObjectKey = pBuff;
 		Safe_Delete(pBuff);
 
+		ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
+		pBuff = new TCHAR[strLen]{};
+		ReadFile(hFile, pBuff, sizeof(TCHAR) * strLen, &dwbyte, nullptr);
+		pObject->wstrObjectImage_Path = pBuff;
+		Safe_Delete(pBuff);
 
 		ReadFile(hFile, &strLen, sizeof(DWORD), &dwbyte, nullptr);
 		pBuff = new TCHAR[strLen]{};
@@ -104,11 +109,11 @@ HRESULT CPrefab_Manager::LoadObjectPrefab()
 
 		m_mapObjectPrefab.emplace(pObject->wstrName, pObject);
 
-		//if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX, pObject->wstrFilePath, pObject->wstrObjectKey)))
-		//{
-		//	ERR_MSG(L"싱글 텍스쳐 실패");
-		//	return E_FAIL;
-		//}
+		if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX, pObject->wstrObjectImage_Path, pObject->wstrObjectImage_ObjectKey)))
+		{
+			ERR_MSG(L"싱글 텍스쳐 실패");
+			return E_FAIL;
+		}
 	}
 	CloseHandle(hFile);
 	return S_OK;
@@ -193,6 +198,7 @@ HRESULT CPrefab_Manager::LoadAnimationPrefab()
 
 HRESULT CPrefab_Manager::LoadPlacementPrefab()
 {
+
 	return S_OK;
 }
 

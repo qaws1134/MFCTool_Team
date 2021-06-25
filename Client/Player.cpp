@@ -19,7 +19,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_tInfo.vDir = { 0.f, 0.f, 0.f }; 
 	m_tInfo.vSize = D3DXVECTOR3(100.f, 100.f, 0.f); 
 
-	CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX,L"../Texture/Stage/Player/Stand/AKIHA_AKI00_000.png",L"Player");
+	CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX, m_pObjectInfo->wstrObjectImage_Path, m_pObjectInfo->wstrObjectImage_ObjectKey);
 
 	m_eRenderId = RENDERID::OBJECT;
 
@@ -43,7 +43,7 @@ int CPlayer::Update_GameObject()
 		m_tInfo.vDir.y = -m_pObjectInfo->fMoveSpeed;
 	if (CKey_Manager::Get_Instance()->Key_Down(KEY_SPACE))
 	{
-		const OBJECTINFO* pPrefab = CPrefab_Manager::Get_Instance()->Get_ObjectPrefab(L"Player");
+		const OBJECTINFO* pPrefab = CPrefab_Manager::Get_Instance()->Get_ObjectPrefab(L"Player_Bullet");
 		CGameObject * pObject = CBullet::Create(pPrefab, m_tInfo.vPos, m_fAngle);
 		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager((OBJECTINFO::OBJID)pPrefab->eObjId, pObject);
 		pObject = nullptr;
@@ -60,7 +60,7 @@ void CPlayer::Late_Update_GameObject()
 
 void CPlayer::Render_GameObject()
 {
-	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(/*m_pObjectInfo->wstrObjectImage_ObjectKey*/L"Player");
+	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(m_pObjectInfo->wstrObjectImage_ObjectKey);
 	if (nullptr == pTexInfo)
 		return;
 	D3DXMATRIX matScale, matRotZ, matTrans, matWorld;
