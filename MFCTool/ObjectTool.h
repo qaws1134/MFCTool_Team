@@ -28,6 +28,7 @@ private:
 
 public:
 	map<CString, OBJECTINFO*>	m_mapObject;
+	map<CString, CString>		m_mapKeyToPath;
 public:
 	afx_msg void OnCbnSelchangeBulletType();
 	CStatic m_GroupBox;
@@ -62,4 +63,8 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	CButton m_ButtonAnimationPlay;
 	afx_msg void OnCbnSelchangeComboObjid();
+	afx_msg void OnLbnSelchangeListObjpic();
+	CStatic m_PictureObject;
+	CListBox m_ListBox_ObjImage;
+	virtual BOOL OnInitDialog();
 };

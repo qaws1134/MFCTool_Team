@@ -42,18 +42,20 @@ typedef struct tagInfo
 typedef struct tagOBJECTINFO
 
 {
-	enum OBJID { PLAYER, MONSTER, PLAYER_BULLET, ENEMY_BULLET, OBJID_END };
+	enum OBJID { BACKGROUND, PLAYER, MONSTER, PLAYER_BULLET, ENEMY_BULLET, EFFECT, UI, OBJID_END };
 	enum BULLET_TYPE { NORMAL, GUIDE, SHOTGUN, TYPE_END };
 #ifdef _AFX
 	CString cstrName;
 	CString cstrObjectImage_ObjectKey;
+	CString cstrObjectImage_Path;
 	CString cstrDeathAnimImage_ObjectKey;
 	CString cstrDeathAnimImage_StateKey;
 #else
 	wstring wstrName;
 	wstring wstrObjectImage_ObjectKey;
-	wstring wstrAnimImage_ObjectKey;
-	wstring wstrAnimImage_StateKey;
+	wstring wstrObjectImage_Path;
+	wstring wstrDeathAnimImage_ObjectKey;
+	wstring wstrDeathAnimImage_StateKey;
 #endif
 	float	fMaxHp;
 	float	fAtk;

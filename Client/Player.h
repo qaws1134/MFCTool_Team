@@ -15,10 +15,9 @@ public:
 	virtual void Render_GameObject() override;
 	virtual void Release_GameObject() override;
 public:
-	static CGameObject* Create();
+	static CGameObject* Create(const OBJECTINFO* _pPrefab);
 
 private:
 	
-	float m_fAngle = 0.f; 
 	float m_fBulletSpeed = 5.f; 
 };

@@ -25,4 +25,3 @@
 // D3DXVECTOR3; 
 
 #include "Headers.h"
-#include "GameObject_Manager.h"

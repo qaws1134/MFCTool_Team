@@ -68,8 +68,10 @@
 #define IDC_EDIT_ANGLE_SG               1028
 #define IDC_BUTTON16                    1029
 #define IDC_PIC_OBJWALK                 1029
+#define IDC_PIC_OBJECT                  1029
 #define IDC_LIST2                       1030
 #define IDC_PIC_OBJDEAD                 1030
+#define IDC_LIST_OBJPIC                 1030
 #define IDC_BUTTON10                    1031
 #define IDC_BUTTON10_ANIM               1031
 #define IDC_BUTTON11                    1032
@@ -94,39 +96,36 @@
 #define IDC_BUTTON12_BULLET             1043
 #define IDC_BUTTON_OBJDEL               1043
 #define IDC_BUTTON9_BULLET              1044
-//<<<<<<< HEAD
+#define IDC_BUTTON_OBJLOADANIM          1044
 #define IDC_EDIT7_PLACE                 1045
+#define IDC_EDIT2_BULLET2               1045
 #define IDC_EDIT8_PLACE                 1046
+#define IDC_EDIT_OBJATK                 1046
 #define IDC_EDIT9_PLACE                 1047
+#define IDC_GROUP_BULLET                1047
 #define IDC_EDIT10_PLACE                1048
+#define IDC_EDIT_OBJATKSPD              1048
 #define IDC_EDIT11_PLACE                1049
+#define IDC_EDIT_OBJMOVSPD              1049
 #define IDC_EDIT12_PLACE                1050
+#define IDC_COMBO_OBJID                 1050
 #define IDC_EDIT13_PLACE                1051
+#define IDC_EDIT_OBJWALK                1051
+#define IDC_TEXT_DESTRUCTABLE           1051
 #define IDC_EDIT14_PLACE                1052
+#define IDC_BUTTON_OBJWALKADD           1052
+#define IDC_TEXT_BULLET_TYPE            1052
 #define IDC_COMBO1_PLACE                1053
+#define IDC_EDIT_OBJDEAD                1053
 #define IDC_LIST1_PLACE                 1054
+#define IDC_BUTTON_OBJWALKADD2          1054
+#define IDC_BUTTON_OBJDEADADD           1054
 #define IDC_PICTURE_PLACE               1055
 #define IDC_LIST2_PLACE                 1056
 #define IDC_BUTTON8_PLACE               1057
 #define IDC_BUTTON9_PLACE               1058
 #define IDC_BUTTON1_PLACE               1059
 #define IDC_EDIT1_PLACE                 1060
-//=======
-#define IDC_BUTTON_OBJLOADANIM          1044
-#define IDC_EDIT2_BULLET2               1045
-#define IDC_EDIT_OBJATK                 1046
-#define IDC_GROUP_BULLET                1047
-#define IDC_EDIT_OBJATKSPD              1048
-#define IDC_EDIT_OBJMOVSPD              1049
-#define IDC_COMBO_OBJID                 1050
-#define IDC_EDIT_OBJWALK                1051
-#define IDC_TEXT_DESTRUCTABLE           1051
-#define IDC_BUTTON_OBJWALKADD           1052
-#define IDC_TEXT_BULLET_TYPE            1052
-#define IDC_EDIT_OBJDEAD                1053
-#define IDC_BUTTON_OBJWALKADD2          1054
-#define IDC_BUTTON_OBJDEADADD           1054
-//>>>>>>> main
 
 // Next default values for new objects
 // 

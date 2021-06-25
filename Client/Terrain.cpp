@@ -6,40 +6,52 @@ CTerrain::CTerrain()
 }
 CTerrain::~CTerrain()
 {
-	Release_GameObject(); 
+	Release_GameObject();
 }
 void CTerrain::LoadTileData(const wstring & wstrFilePath)
 {
-	HANDLE hFile = CreateFile(wstrFilePath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr); 
+	HANDLE hFile = CreateFile(wstrFilePath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (INVALID_HANDLE_VALUE == hFile)
-		return; 
-	DWORD dwbyte = 0; 
-	TILE* pTile = nullptr; 
+		return;
+	DWORD dwbyte = 0;
+	TILE* pTile = nullptr;
 
 	while (true)
 	{
-		pTile = new TILE; 
-		ReadFile(hFile, pTile, sizeof(TILE), &dwbyte, nullptr); 
+		pTile = new TILE;
+		ReadFile(hFile, pTile, sizeof(TILE), &dwbyte, nullptr);
 
-		if (0== dwbyte)
+		if (0 == dwbyte)
 		{
-			Safe_Delete(pTile); 
-			return; 
+			Safe_Delete(pTile);
+			return;
 		}
-		m_vecTile.emplace_back(pTile); 
+		m_vecTile.emplace_back(pTile);
 	}
-	CloseHandle(hFile); 
-	
+	CloseHandle(hFile);
+
 }
 HRESULT CTerrain::Ready_GameObject()
 {
-	LoadTileData(L"../Data/TileData.dat"); 
+	LoadTileData(L"../Data/TileData.dat");
 	// 자 여기서 예외 처리 하셈 . 
 	return S_OK;
 }
 
 int CTerrain::Update_GameObject()
 {
+	float fSpeed = 300.f * CTime_Manager::Get_Instance()->Get_DeltaTime();
+	//if (CKey_Manager::Get_Instance()->Key_Up(KEY_LEFT))
+	//	CScroll_Manager::Set_Scroll({ fSpeed, 0.f, 0.f });
+	//if (CKey_Manager::Get_Instance()->Key_Down(KEY_RIGHT))
+	//	CScroll_Manager::Set_Scroll({ -fSpeed, 0.f, 0.f });
+	//if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//	CScroll_Manager::Set_Scroll({ 0.f,fSpeed,  0.f });
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	//	CScroll_Manager::Set_Scroll({ 0.f,-fSpeed,  0.f });
+
+
+	//A* b* C스타!!! 
 	return 0;
 }
 
@@ -52,7 +64,7 @@ void CTerrain::Render_GameObject()
 	D3DXMATRIX matScale, matTrans;
 	int iSize = m_vecTile.size();
 	TCHAR szIndex[32] = L"";
-
+	D3DXVECTOR3 vScroll = CScroll_Manager::Get_Scroll();
 	for (int i = 0; i < iSize; ++i)
 	{
 		swprintf_s(szIndex, L"%d", i);
@@ -64,7 +76,7 @@ void CTerrain::Render_GameObject()
 		float fCenterY = float(pTexInfo->tImageInfo.Height >> 1);
 
 		D3DXMatrixScaling(&matScale, m_vecTile[i]->vSize.x, m_vecTile[i]->vSize.y, 0.f);
-		D3DXMatrixTranslation(&matTrans, m_vecTile[i]->vPos.x , m_vecTile[i]->vPos.y , 0.f);
+		D3DXMatrixTranslation(&matTrans, m_vecTile[i]->vPos.x + vScroll.x, m_vecTile[i]->vPos.y + vScroll.y, 0.f);
 		matScale *= matTrans;
 		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matScale);
 
