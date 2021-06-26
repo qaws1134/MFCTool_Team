@@ -210,11 +210,27 @@ void CUiTool::Render_UI()
 				vPos.x -= m_pView->GetScrollPos(SB_HORZ);
 				vPos.y -= m_pView->GetScrollPos(SB_VERT);
 				CGraphic_Device::Get_Instance()->Get_Sprite()->End();
-				D3DXVECTOR2 vLinePosX[3] = { { vPos.x,vPos.y }
-				,{ vPos.x + 100.f, vPos.y },{ vPos.x + 100.f - 10.f,vPos.y - 10.f } };
-				CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLinePosX, 3, D3DCOLOR_ARGB(255, 255, 0, 0));
-				D3DXVECTOR2 vLinePosY[3] = { { vPos.x, vPos.y },{ vPos.x,vPos.y - 100.f },{ vPos.x - 10.f,vPos.y - 100 + 10.f } };
-				CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLinePosY, 3, D3DCOLOR_ARGB(255, 0, 255, 0));
+
+				if (!m_bArrowX)
+				{
+					D3DXVECTOR2 vLinePosX[3] = { { vPos.x,vPos.y },{ vPos.x + 100.f, vPos.y },{ vPos.x + 100.f - 10.f,vPos.y - 8.f } };
+					CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLinePosX, 3, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					D3DXVECTOR2 vLinePosX[3] = { { vPos.x,vPos.y },{ vPos.x + 100.f, vPos.y },{ vPos.x + 100.f - 10.f,vPos.y - 8.f } };
+					CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLinePosX, 3, D3DCOLOR_ARGB(255, 255, 255, 255));
+				}
+				if (!m_bArrowY)
+				{
+					D3DXVECTOR2 vLinePosY[3] = { { vPos.x, vPos.y },{ vPos.x,vPos.y - 100.f },{ vPos.x - 8.f,vPos.y - 100 + 10.f } };
+					CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLinePosY, 3, D3DCOLOR_ARGB(255, 0, 255, 0));
+				}
+				else
+				{
+					D3DXVECTOR2 vLinePosY[3] = { { vPos.x, vPos.y },{ vPos.x,vPos.y - 100.f },{ vPos.x - 8.f,vPos.y - 100 + 10.f } };
+					CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLinePosY, 3, D3DCOLOR_ARGB(255, 255, 255, 255));
+				}
 				CGraphic_Device::Get_Instance()->Get_Sprite()->Begin(D3DXSPRITE_ALPHABLEND);
 			}
 			if (m_bMatRot)
@@ -231,8 +247,16 @@ void CUiTool::Render_UI()
 					vCirclePos[i].y = vPos.y - sinf(D3DXToRadian((360.f / 30.f )*i))*100.f;
 				}
 				vCirclePos[30] = vCirclePos[0];
-				CGraphic_Device::Get_Instance()->Get_Line()->Draw(vCirclePos, 31, D3DCOLOR_ARGB(255, 0, 255, 0));
-				CGraphic_Device::Get_Instance()->Get_Sprite()->Begin(D3DXSPRITE_ALPHABLEND);
+				if (!m_bCircle)
+				{
+					CGraphic_Device::Get_Instance()->Get_Line()->Draw(vCirclePos, 31, D3DCOLOR_ARGB(255, 0, 255, 0));
+					CGraphic_Device::Get_Instance()->Get_Sprite()->Begin(D3DXSPRITE_ALPHABLEND);
+				}
+				else
+				{
+					CGraphic_Device::Get_Instance()->Get_Line()->Draw(vCirclePos, 31, D3DCOLOR_ARGB(255, 255, 255, 255));
+					CGraphic_Device::Get_Instance()->Get_Sprite()->Begin(D3DXSPRITE_ALPHABLEND);
+				}
 			}
 
 		}
@@ -415,6 +439,7 @@ void CUiTool::Collision_Up()
 		m_bArrowY = false;
 		m_bCircle = false;
 		m_bMouseDown = false;
+		m_pView->Invalidate(FALSE);
 	}
 }
 
