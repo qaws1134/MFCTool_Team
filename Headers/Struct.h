@@ -54,6 +54,7 @@ typedef struct tagOBJECTINFO
 	wstring wstrName;
 	wstring wstrObjectImage_ObjectKey;
 	wstring wstrObjectImage_Path;
+
 	wstring wstrDeathAnimImage_ObjectKey;
 	wstring wstrDeathAnimImage_StateKey;
 #endif
@@ -115,6 +116,8 @@ typedef struct tagPlacementInfo
 	wstring wstrName;
 	wstring wstrObjectKey;
 	wstring wstrFilePath;
+
+
 	wstring wstrObjName;
 #endif
 }PLACEMENT;
