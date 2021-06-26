@@ -51,11 +51,14 @@ int CPlayer::Update_GameObject()
 
 	m_tInfo.vPos += m_tInfo.vDir;
 
+	CScroll_Manager::Set_Scroll(-m_tInfo.vDir * 0.5f);
+
 	return OBJ_NOEVENT;
 }
 
 void CPlayer::Late_Update_GameObject()
 {
+	
 }
 
 void CPlayer::Render_GameObject()
@@ -63,10 +66,12 @@ void CPlayer::Render_GameObject()
 	const TEXINFO* pTexInfo = CTexture_Manager::Get_Instance()->Get_TexInfo(m_pObjectInfo->wstrObjectImage_ObjectKey);
 	if (nullptr == pTexInfo)
 		return;
+	D3DXVECTOR3 vScroll = CScroll_Manager::Get_Scroll();
+
 	D3DXMATRIX matScale, matRotZ, matTrans, matWorld;
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 0.f);
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-m_fAngle));
-	D3DXMatrixTranslation(&matTrans, m_tInfo.vPos.x, m_tInfo.vPos.y, 0.f);
+	D3DXMatrixTranslation(&matTrans, m_tInfo.vPos.x + vScroll.x, m_tInfo.vPos.y + vScroll.y, 0.f);
 	matWorld = matScale * matRotZ * matTrans;
 	float fCenterX = float(pTexInfo->tImageInfo.Width >> 1);
 	float fCenterY = float(pTexInfo->tImageInfo.Height >> 1);
@@ -78,10 +83,11 @@ void CPlayer::Release_GameObject()
 {
 }
 
-CGameObject * CPlayer::Create(const OBJECTINFO* _pPrefab)
+CGameObject * CPlayer::Create(const OBJECTINFO* _pPrefab, const PLACEMENT* _pPlacement)
 {
 	CGameObject* pInstance = new CPlayer;
 	pInstance->Set_Prefab(_pPrefab);
+	pInstance->Set_Placement(_pPlacement);
 	if (FAILED(pInstance->Ready_GameObject()))
 	{
 		delete pInstance;

@@ -67,6 +67,15 @@
     <Filter Include="01.GameObject\03.Effect">
       <UniqueIdentifier>{60094de7-be03-4021-8e68-d9fe64e5421f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\Spawn_Manager">
+      <UniqueIdentifier>{766184fd-da3c-4489-8702-537b9da99368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\04.BackGround">
+      <UniqueIdentifier>{eb6530c4-ebd3-4ed8-ac58-d516ac0d3ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\05.Gui">
+      <UniqueIdentifier>{e30d83e8-7bb3-4808-89ed-8a68f7ef528f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -141,6 +150,15 @@
     <ClInclude Include="Effect.h">
       <Filter>01.GameObject\03.Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Spawn_Manager.h">
+      <Filter>Manager\Spawn_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>01.GameObject\04.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui.h">
+      <Filter>01.GameObject\05.Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -208,6 +226,15 @@
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>01.GameObject\03.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Spawn_Manager.cpp">
+      <Filter>Manager\Spawn_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>01.GameObject\04.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui.cpp">
+      <Filter>01.GameObject\05.Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
