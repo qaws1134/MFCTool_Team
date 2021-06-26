@@ -49,8 +49,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 기본 메시지 루프입니다.
 	CFrame_Manager pFrame;
-	pFrame.Ready_Frame_Manager(60);
-	DWORD dwOldTime = GetTickCount(); 
+	pFrame.Ready_Frame_Manager(60.f);
     while (WM_QUIT != msg.message)
     {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) 
@@ -66,7 +65,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			pMain->Update_MainApp(); 
 			pMain->Render_MainApp();
 			pFrame.Render_Frame_Manager();
-			dwOldTime = GetTickCount(); 
 		}
     }
 	if (pMain)
