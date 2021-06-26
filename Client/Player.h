@@ -15,7 +15,7 @@ public:
 	virtual void Render_GameObject() override;
 	virtual void Release_GameObject() override;
 public:
-	static CGameObject* Create(const OBJECTINFO* _pPrefab);
+	static CGameObject* Create(const OBJECTINFO* _pPrefab, const PLACEMENT* _pPlacement);
 
 private:
 	

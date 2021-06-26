@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "Prefab_Manager.h"
+#include "Spawn_Manager.h"
 
 IMPLEMENT_SINGLETON(CPrefab_Manager)
 CPrefab_Manager::CPrefab_Manager()
+	:m_wstrPlacementPath(L"../Data/Placement%d.dat")
 {
 }
 
@@ -28,11 +30,10 @@ CPrefab_Manager::~CPrefab_Manager()
 
 HRESULT CPrefab_Manager::Ready_Prefab_Manager()
 {
+
 	if (FAILED(LoadAnimationPrefab()))
 		return E_FAIL;
 	if (FAILED(LoadObjectPrefab()))
-		return E_FAIL;
-	if (FAILED(LoadPlacementPrefab()))
 		return E_FAIL;
 
 	return S_OK;
@@ -196,8 +197,82 @@ HRESULT CPrefab_Manager::LoadAnimationPrefab()
 	return S_OK;
 }
 
-HRESULT CPrefab_Manager::LoadPlacementPrefab()
+HRESULT CPrefab_Manager::LoadPlacementPrefab(const wstring & _path)
 {
+	HANDLE hFile = CreateFile(_path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		ERR_MSG(L"Placement 파일이 없습니다");
+		return E_FAIL;
+	}
+
+	for (auto& rPair : m_mapPlacementPrefab)
+		Safe_Delete(rPair.second);
+	m_mapPlacementPrefab.clear();
+
+	DWORD dwbyte = 0;
+	DWORD dwStringSize = 0;
+
+	TCHAR* pBuf = nullptr;
+	PLACEMENT* pPlacement = nullptr;
+
+	while (true)
+	{
+		pPlacement = new PLACEMENT;
+		ReadFile(hFile, &pPlacement->eRenderID, sizeof(int), &dwbyte, nullptr);
+		if (0 == dwbyte)
+		{
+			Safe_Delete(pPlacement);
+			break;
+		}
+		ReadFile(hFile, &pPlacement->m_tMatInfo.mat[MATID::TRANS], sizeof(D3DXVECTOR3), &dwbyte, nullptr);
+		ReadFile(hFile, &pPlacement->m_tMatInfo.mat[MATID::ROT], sizeof(D3DXVECTOR3), &dwbyte, nullptr);
+		ReadFile(hFile, &pPlacement->m_tMatInfo.mat[MATID::SCALE], sizeof(D3DXVECTOR3), &dwbyte, nullptr);
+
+		ReadFile(hFile, &pPlacement->m_bRender, sizeof(bool), &dwbyte, nullptr);
+
+
+		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwbyte, nullptr);
+		pBuf = new TCHAR[dwStringSize];
+		ReadFile(hFile, pBuf, dwStringSize, &dwbyte, nullptr);
+		pPlacement->wstrObjName = pBuf;
+
+		Safe_Delete(pBuf);
+
+		//	}
+
+		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwbyte, nullptr);
+		pBuf = new TCHAR[dwStringSize];
+		ReadFile(hFile, pBuf, dwStringSize, &dwbyte, nullptr);
+		pPlacement->wstrName = pBuf;
+		Safe_Delete(pBuf);
+
+		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwbyte, nullptr);
+		pBuf = new TCHAR[dwStringSize];
+		ReadFile(hFile, pBuf, dwStringSize, &dwbyte, nullptr);
+		pPlacement->wstrObjectKey = pBuf;
+		Safe_Delete(pBuf);
+
+		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwbyte, nullptr);
+		pBuf = new TCHAR[dwStringSize];
+		ReadFile(hFile, pBuf, dwStringSize, &dwbyte, nullptr);
+		pPlacement->wstrFilePath = pBuf;
+		Safe_Delete(pBuf);
+
+		m_mapPlacementPrefab.emplace(pPlacement->wstrName, pPlacement);
+		//===============이미지 Insert==============
+
+		if (pPlacement->wstrObjectKey != L"")
+		{
+			if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::SINGLE_TEX, pPlacement->wstrFilePath, pPlacement->wstrName)))
+			{
+				ERR_MSG(L"싱글 텍스쳐 실패");
+				return E_FAIL;
+			}
+		}
+	}
+	CloseHandle(hFile);
 
 	return S_OK;
 }
@@ -224,4 +299,31 @@ const PLACEMENT * CPrefab_Manager::Get_PlacementPrefab(const wstring & _key) con
 	if (iter_find == m_mapPlacementPrefab.end())
 		return nullptr;
 	return iter_find->second;
+}
+
+HRESULT CPrefab_Manager::SpawnObjectbyScene(const CScene_Manager::ID & _id)
+{
+	TCHAR szFilePath[MAX_PATH] = L"";
+	swprintf_s(szFilePath, m_wstrPlacementPath.c_str(), (int)_id);
+	LoadPlacementPrefab(szFilePath);
+
+	PLACEMENT* pPlacement = nullptr;
+	for (auto& rPair : m_mapPlacementPrefab)
+	{
+		pPlacement = rPair.second;
+		auto& iter_find = m_mapObjectPrefab.find(pPlacement->wstrObjName);
+		if (iter_find == m_mapObjectPrefab.end())
+		{
+			//ERR_MSG(L"키값 오류");
+			CSpawn_Manager::Spawn(L"", pPlacement, nullptr);
+		}
+		else
+		{
+			CSpawn_Manager::Spawn(iter_find->second->wstrName, pPlacement, iter_find->second);
+		}
+		
+		
+	}
+
+	return S_OK;
 }

@@ -15,14 +15,13 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
-	CGameObject* pObject = CTerrain::Create(); 
-	CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECTINFO::BACKGROUND, pObject);
-	pObject = nullptr;
+	CGameObject* pObject = nullptr;
+	//pObject =	CTerrain::Create();
+	//CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECTINFO::BACKGROUND, pObject);
+	//pObject = nullptr;
 
-	const OBJECTINFO* pPrefab = CPrefab_Manager::Get_Instance()->Get_ObjectPrefab(L"Player");
-	pObject = CPlayer::Create(pPrefab);
-	CGameObject_Manager::Get_Instance()->Add_GameObject_Manager((OBJECTINFO::OBJID)pPrefab->eObjId, pObject);
-	pObject = nullptr;
+	CPrefab_Manager::Get_Instance()->SpawnObjectbyScene(CScene_Manager::SCENE_STAGE);
+
 
 	return S_OK;
 }
